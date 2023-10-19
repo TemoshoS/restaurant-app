@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+    const navigation = useNavigation();
+
   return (
       <View style={styles.container}>
 
@@ -21,9 +24,12 @@ const HomeScreen = () => {
           
 
           <View>
-          <TouchableOpacity style={styles.getButton}>
-            <Text style={styles.getTxt}>Get started</Text>
-          </TouchableOpacity>
+              <TouchableOpacity
+                  style={styles.getButton}
+                  onPress={() => navigation.navigate('Restaurants')}>
+                  <Text style={styles.getTxt}>Get started</Text>
+
+              </TouchableOpacity>
           </View>
 
       </View>
