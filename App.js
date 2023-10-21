@@ -18,7 +18,7 @@ export default function App() {
 
   function MainStack() {
     return (
-      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Navigator initialRouteName='Restaurants'>
         <Stack.Screen name="Restaurants" component={RestaurantScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Welcome' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
@@ -30,8 +30,8 @@ export default function App() {
   function TabNavigator() {
     return (
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={MainStack} />
-        <Tab.Screen name="Fav" component={RestaurantScreen} />
+        <Tab.Screen name="Home" component={MainStack} options={{ headerShown: false }}/>
+        <Tab.Screen name="Fav" component={RestaurantScreen} options={{ headerShown: false }}/>
       </Tab.Navigator>
     );
   }

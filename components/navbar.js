@@ -1,51 +1,61 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // You can choose any icon you prefer
 
 const Navbar = () => {
+  const getCurrentTimeOfDay = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour >= 0 && currentHour < 12) {
+      return 'morning';
+    } else if (currentHour >= 12 && currentHour < 18) {
+      return 'afternoon';
+    } else {
+      return 'evening';
+    }
+  };
 
-    const getCurrentTimeOfDay = ()=>{
-
-        const currentHour = new Date().getHours();
-        if (currentHour >= 0 && currentHour < 12) {
-          return 'morning';
-        } else if (currentHour >= 12 && currentHour < 18) {
-          return 'afternoon';
-        } else {
-          return 'evening';
-        }
-    
-      };
-    return (
-        <View>
-            <View style={styles.user}>
-
-                <Text style={styles.greetingText}>
-                    Good {getCurrentTimeOfDay()}
-                </Text>
-
-                <Text style={styles.userText}>Temosho</Text>
-
-            </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.user}>
+        <Text style={styles.greetingText}>
+          Good {getCurrentTimeOfDay()},
+        </Text>
+        <View style={styles.userRow}>
+          <Icon name="user" size={20} color="#fff" /> {/* Adjust the icon and size */}
+          <Text style={styles.userText}>Temosho</Text>
         </View>
-    )
-}
-
-export default Navbar
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container:{
+  container: {
+    backgroundColor: '#3498db',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginBottom: 40,
+  },
+  user: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  greetingText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  userRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 100
+  },
+  userText: {
+    marginLeft: 10, // Adjust the margin to your preference
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+});
 
-    },
-    user:{
-     flexDirection: 'row',
-     alignItems: 'center',
-     margin: 50
-    },
-    greetingText: {
-        fontSize: 16,
-        fontWeight: 'bold'
-    },
-    userText:{
-        marginLeft: 110,
-    }
-})
+export default Navbar;
