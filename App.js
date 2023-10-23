@@ -6,6 +6,7 @@ import LoginScreen from './Screens/LoginScreen';
 import HomeScreen from './Screens/HomeScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import RestaurantScreen from './Screens/RestaurantScreen';
+import RestaurantDetailsScreen from './Screens/RestaurantDetailsScreen';
 import store from './store/store';
 import { Provider } from 'react-redux';
 
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name='Welcome' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name='RestaurantDetailsScreen' component={RestaurantDetailsScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     );
   }

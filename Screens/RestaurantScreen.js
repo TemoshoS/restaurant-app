@@ -6,12 +6,12 @@ import Navbar from '../components/navbar';
 import Search from '../components/search';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../config/firebase';
-import { updateDoc, collection, doc, getDoc } from 'firebase/firestore';
+import { updateDoc,  doc, getDoc } from 'firebase/firestore';
 
 
 
 
-const RestaurantScreen = ({ restaurants, fetchRestaurants }) => {
+const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [likes, setLikes] = useState({});
@@ -65,21 +65,26 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants }) => {
   keyExtractor={(item, index) => index.toString()}
   renderItem={({ item }) => (
     <View style={styles.restaurantItem}>
+      <TouchableOpacity
+      onPress={() => navigation.navigate('RestaurantDetailsScreen',{restaurant:item})}
+      >
       <Image source={{ uri: item.restImage }} style={styles.restaurantImage} />
+      </TouchableOpacity>
+
       <View style={styles.restaurantInfo}>
         <Text style={styles.restaurantName}>{item.restName}</Text>
         <Text style={styles.restaurantLocation}>{item.restLocation}</Text>
         <View style={styles.ratingsContainer}>
-          {item.ratings <= 10 && (
+          {item.ratings <= 20 && (
             <Ionicons name="star" size={20} color="#FFD700" />
           )}
-          {item.ratings > 10 && item.ratings <= 20 && (
+          {item.ratings > 20 && item.ratings <= 40 && (
             <>
               <Ionicons name="star" size={20} color="#FFD700" />
               <Ionicons name="star" size={20} color="#FFD700" />
             </>
           )}
-            {item.ratings > 20 && item.ratings <= 30 && (
+            {item.ratings > 40 && item.ratings <= 60 && (
             <>
               <Ionicons name="star" size={20} color="#FFD700" />
               <Ionicons name="star" size={20} color="#FFD700" />
@@ -87,7 +92,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants }) => {
 
             </>
           )}
-            {item.ratings > 30 && item.ratings <= 40 && (
+            {item.ratings > 60 && item.ratings <= 80 && (
             <>
               <Ionicons name="star" size={20} color="#FFD700" />
               <Ionicons name="star" size={20} color="#FFD700" />
@@ -95,7 +100,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants }) => {
               <Ionicons name="star" size={20} color="#FFD700" />
             </>
           )}
-            {item.ratings > 50 && (
+            {item.ratings > 80 &&  (
             <>
               <Ionicons name="star" size={20} color="#FFD700" />
               <Ionicons name="star" size={20} color="#FFD700" />
