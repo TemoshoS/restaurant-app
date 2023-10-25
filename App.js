@@ -8,6 +8,7 @@ import RegisterScreen from './Screens/RegisterScreen';
 import RestaurantScreen from './Screens/RestaurantScreen';
 import RestaurantDetailsScreen from './Screens/RestaurantDetailsScreen';
 import MenuScreen from './Screens/MenuScreen';
+import ReservationScreen from './Screens/ReservationScreen';
 import store from './store/store';
 import { Provider } from 'react-redux';
 
@@ -26,7 +27,9 @@ export default function App() {
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Register' component={RegisterScreen} options={{ headerShown: false }} />
         <Stack.Screen name='RestaurantDetailsScreen' component={RestaurantDetailsScreen} options={{headerShown: false}}/>
-        <Stack.Screen name='MenuScreen' component={MenuScreen}/>
+        <Stack.Screen name='MenuScreen' component={MenuScreen} options={{headerShown: false}}/>
+        <Stack.Screen name='ReservationScreen' component={ReservationScreen} options={{headerShown: false}}/>
+      
       </Stack.Navigator>
     );
   }

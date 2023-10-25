@@ -28,7 +28,12 @@ const RestaurantDetailsScreen = ({ route }) => {
       
       <TouchableOpacity 
       style={styles.imageButton}
-      onPress={() => navigate('MenuScreen', { restId: restaurant.id })}
+      onPress={() => navigate('MenuScreen', { restId: restaurant.id,
+         restImage: restaurant.restImage ,
+         restName: restaurant.restName,
+         restLocation: restaurant.restLocation })}
+      
+      
       >
         <Text style={styles.imageButtonText}>View Menu</Text>
       </TouchableOpacity>
