@@ -1,13 +1,13 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import React from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 const RestaurantDetailsScreen = ({ route }) => {
   const { restaurant } = route.params;
-  const lunchTime = ['1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm'];
-  const dinnerTime = ['1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm', '1:00 pm'];
+  const lunchTime = ['12:00 pm - 3:00 pm', '12:00 pm - 3:00 pm', '12:00 pm - 3:00 pm', '12:00 pm - 3:00 pm'];
+  const dinnerTime = ['6:00 pm - 9:00 pm', '6:00 pm - 9:00 pm', '6:00 pm - 9:00 pm', '6:00 pm - 9:00 pm'];
   const { navigate } = useNavigation(); 
 
   const createGrid = (menuItems) => {
@@ -15,7 +15,7 @@ const RestaurantDetailsScreen = ({ route }) => {
       <View style={styles.gridContainer}>
         {menuItems.map((item, index) => (
           <View style={styles.menuItem} key={index}>
-            <Text>{item}</Text>
+            <Text style={styles.menuItemText}>{item}</Text>
           </View>
         ))}
       </View>
@@ -23,50 +23,54 @@ const RestaurantDetailsScreen = ({ route }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView style={styles.container}>
       <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
-      
+
       <TouchableOpacity 
-      style={styles.imageButton}
-      onPress={() => navigate('MenuScreen', { restId: restaurant.id,
-         restImage: restaurant.restImage ,
-         restName: restaurant.restName,
-         restLocation: restaurant.restLocation })}
-      
-      
+        style={styles.imageButton}
+        onPress={() => navigate('MenuScreen', { restId: restaurant.id, restImage: restaurant.restImage, restName: restaurant.restName, restLocation: restaurant.restLocation })}
       >
         <Text style={styles.imageButtonText}>View Menu</Text>
       </TouchableOpacity>
-      
+
       <Text style={styles.restName}>{restaurant.restName}</Text>
 
       <View style={styles.locationContainer}>
-        <FontAwesome name="map-marker" size={15} color="#ccc" />
+        <FontAwesome name="map-marker" size={15} color="#333" />
         <Text style={styles.locationText}>{restaurant.restLocation}</Text>
       </View>
 
       <View style={styles.likes}>
         <TouchableOpacity style={styles.shareBtn}>
-          <Icon name="share" size={15} color="#ccc" />
+          <Icon name="share" size={15} color="#333" />
           <Text style={styles.shareTxt}>Share</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.saveBtn}>
-          <Icon name="save" size={15} color="#ccc" />
+          <Icon name="heart" size={15} color="#FF6347" />
           <Text style={styles.saveTxt}>Save</Text>
         </TouchableOpacity>
       </View>
 
-      <Text>Lunch</Text>
+      <Text style={styles.sectionTitle}>Lunch Hours</Text>
       {createGrid(lunchTime)}
 
-      <Text>Dinner</Text>
+      <Text style={styles.sectionTitle}>Dinner Hours</Text>
       {createGrid(dinnerTime)}
 
-      <Text>About {restaurant.restName}</Text>
-      <Text>{restaurant.restInfo}</Text>
-      <Text>{restaurant.restPhone}</Text>
-      <Text>{restaurant.restWebsite}</Text>
+      <Text style={styles.sectionTitle}>About {restaurant.restName}</Text>
+      <Text style={styles.aboutText}>{restaurant.restInfo}</Text>
+
+      <View style={styles.contactContainer}>
+        <View style={styles.contactItem}>
+          <FontAwesome name="phone" size={20} color="#333" />
+          <Text style={styles.contactText}>{restaurant.restPhone}</Text>
+        </View>
+        <View style={styles.contactItem}>
+          <FontAwesome name="globe" size={20} color="#333" />
+          <Text style={styles.contactText}>{restaurant.restWebsite}</Text>
+        </View>
+      </View>
     </ScrollView>
   );
 }
@@ -75,69 +79,81 @@ export default RestaurantDetailsScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    backgroundColor: '#FFF',
   },
   restaurantImage: {
     width: '100%',
-    height: 150,
+    height: 200,
   },
   imageButton: {
     position: 'absolute',
-    top: 50,
-    left: 180,
-    backgroundColor: '#87CEFA',
-    padding : 5,
+    top: 140,
+    right: 10,
+    backgroundColor: '#3498db',
+    padding: 10,
     borderRadius: 5,
   },
-  imageButtonText:{
-    color: 'white'
+  imageButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
   restName: {
-    color: '#ccc',
-    marginLeft: 5,
+    color: '#333',
+    fontSize: 24,
     fontWeight: 'bold',
+    margin: 10,
+    textAlign: 'center',
   },
   locationContainer: {
     flexDirection: 'row',
-    marginTop: 15,
-    marginBottom: 15,
+    alignItems: 'center',
+    marginHorizontal: 10,
   },
   locationText: {
-    color: '#ccc',
+    color: '#333',
+    marginLeft: 5,
   },
   likes: {
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
   },
   shareBtn: {
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#3498db',
     borderRadius: 20,
-    width: 80,
+    width: 100,
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 5,
   },
   saveBtn: {
-    borderWidth:1,
-    borderColor: '#ccc',
+    borderWidth: 1,
+    borderColor: '#FF6347',
     borderRadius: 20,
-    width: 80,
+    width: 100,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 10,
+    margin: 5,
   },
   shareTxt: {
-    color: '#ccc',
+    color: '#3498db',
   },
   saveTxt: {
-    color: '#ccc',
+    color: '#FF6347',
+  },
+  sectionTitle: {
+    color: '#333',
+    fontSize: 20,
+    fontWeight: 'bold',
+    margin: 10,
   },
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '100%',
-    justifyContent: 'space-between',
+    margin: 10,
   },
   menuItem: {
     borderWidth: 1,
@@ -146,6 +162,28 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     alignItems: 'center',
-    width: '30%',
+    width: '45%',
+  },
+  menuItemText: {
+    color: '#333',
+    textAlign: 'center',
+  },
+  aboutText: {
+    color: '#333',
+    fontSize: 16,
+    margin: 10,
+    lineHeight: 20,
+  },
+  contactContainer: {
+    margin: 10,
+  },
+  contactItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  contactText: {
+    color: '#333',
+    marginLeft: 10,
   },
 });

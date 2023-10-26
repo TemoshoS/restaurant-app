@@ -9,9 +9,11 @@ import RestaurantScreen from './Screens/RestaurantScreen';
 import RestaurantDetailsScreen from './Screens/RestaurantDetailsScreen';
 import MenuScreen from './Screens/MenuScreen';
 import ReservationScreen from './Screens/ReservationScreen';
+import PastReserevationScreen from './Screens/PastReserevationScreen';
 import store from './store/store';
 import { Provider } from 'react-redux';
-
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FavoriteRestaurantScreen from './Screens/FavoriteRestaurantScreen';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -36,9 +38,56 @@ export default function App() {
 
   function TabNavigator() {
     return (
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={MainStack} options={{ headerShown: false }}/>
-        <Tab.Screen name="Fav" component={RestaurantScreen} options={{ headerShown: false }}/>
+      <Tab.Navigator 
+      tabBarOptions={{
+        activeTintColor: '#808080',
+        inactiveTintColor: '#AFEEEE',
+        
+      }}
+     
+      >
+        <Tab.Screen 
+        name=" " 
+        component={MainStack} 
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="home"
+              color={color}
+              size={size}
+              
+            />
+          ),
+        }}
+        />
+        <Tab.Screen 
+        name="  " 
+        
+        component={FavoriteRestaurantScreen} 
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="heart"
+              color={color}
+              size={size}
+            />
+          ),
+        }}/>
+        <Tab.Screen 
+        name="   " 
+        component={PastReserevationScreen} 
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="book-open"
+              color={color}
+              size={size}
+            />
+          ),
+        }}/>
       </Tab.Navigator>
     );
   }
