@@ -3,6 +3,8 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'rea
 import { useDispatch } from 'react-redux';
 import { registerSuccess } from '../actions/authActions';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/native';
+
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState('');
@@ -15,6 +17,7 @@ const RegisterScreen = () => {
   const [passwordStrength, setPasswordStrength] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   const handleRegister = async () => {
     // Reset previous validation errors and user exists message
@@ -54,6 +57,8 @@ const RegisterScreen = () => {
       setPassword('');
       setReenterPassword('');
       setUserExistsMessage('Account created successfully.');
+
+      navigation.navigate('Login');
     } catch (error) {
       console.error('Registration error:', error);
       if (error.code === 'auth/email-already-in-use') {
