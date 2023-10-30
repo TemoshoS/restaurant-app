@@ -14,6 +14,7 @@ import store from './store/store';
 import { Provider } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FavoriteRestaurantScreen from './Screens/FavoriteRestaurantScreen';
+import ForgotPasswordScreen from './Screens/ForgotPasswordScreen'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +24,7 @@ export default function App() {
 
   function MainStack() {
     return (
-      <Stack.Navigator initialRouteName='Restaurants'>
+      <Stack.Navigator initialRouteName='Login'>
         <Stack.Screen name="Restaurants" component={RestaurantScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Welcome' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
@@ -31,7 +32,7 @@ export default function App() {
         <Stack.Screen name='RestaurantDetailsScreen' component={RestaurantDetailsScreen} options={{headerShown: false}}/>
         <Stack.Screen name='MenuScreen' component={MenuScreen} options={{headerShown: false}}/>
         <Stack.Screen name='ReservationScreen' component={ReservationScreen} options={{headerShown: false}}/>
-      
+        <Stack.Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     );
   }

@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { registerSuccess } from '../actions/authActions';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
 
 const RegisterScreen = () => {
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reenterPassword, setReenterPassword] = useState('');
@@ -50,9 +52,17 @@ const RegisterScreen = () => {
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: name,
+        
+      });
+
       dispatch(registerSuccess(user));
 
+
       // Reset fields and show success message
+      setName('');
       setEmail('');
       setPassword('');
       setReenterPassword('');
@@ -73,7 +83,12 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>RegisterScreen</Text>
+      <Text style={styles.title}>Register Screen</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        onChangeText={(text) => setName(text)}
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"

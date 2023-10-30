@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../actions/authActions';
 import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome'; 
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ const LoginScreen = () => {
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const [loginError, setLoginError] = useState(null);
+  const [isSignUp, setIsSignUp] = useState(false); 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -18,6 +20,7 @@ const LoginScreen = () => {
     setEmailError(null);
     setPasswordError(null);
     setLoginError(null);
+    setEmailError(null);
 
     if (!email || !password) {
       if (!email) setEmailError('Email is required');
@@ -32,6 +35,7 @@ const LoginScreen = () => {
 
       if (user) {
         dispatch(loginSuccess(user));
+        navigation.navigate('Restaurants');
       } else {
         setLoginError('User does not exist.');
       }
@@ -43,26 +47,21 @@ const LoginScreen = () => {
         setLoginError('Incorrect password.');
       }
     }
+
+    console.log('handleLogin function called');
   };
 
   const handleForgotPassword = () => {
-    if (email) {
-      const auth = getAuth();
-      sendPasswordResetEmail(auth, email)
-        .then(() => {
-          alert('Password reset email sent. Check your email for instructions.');
-        })
-        .catch((error) => {
-          console.error('Password reset error:', error);
-        });
-    } else {
-      setEmailError('Email is required to reset the password.');
-    }
+   
+  };
+
+  const toggleSignUp = () => {
+    
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>LoginScreen</Text>
+      <Icon name="user" size={80} color="black" style={styles.userIcon} />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -79,28 +78,50 @@ const LoginScreen = () => {
       {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
 
       {loginError && <Text style={styles.errorText}>{loginError}</Text>}
+      
+      <TouchableOpacity style={styles.forgotBtn} onPress={()=>navigation.navigate('ForgotPasswordScreen')}>
+        <Text style={styles.forgotTxt}>Forgot Password</Text>
+      </TouchableOpacity>
 
-      <Button title="Login" onPress={handleLogin} />
-      <Button
-        title="Forgot Password"
-        onPress={handleForgotPassword}
-      />
+      <TouchableOpacity style={styles.loginBtn} onPress={ handleLogin}>
+        <Text style={styles.loginTxt}>Login</Text>
+      </TouchableOpacity>
+      
+
+      {isSignUp ? (
+        <Text style={styles.toggleText}>
+          Already have an account?{' '}
+          <Text style={styles.toggleLink} onPress={toggleSignUp}>
+            Log In
+          </Text>
+        </Text>
+      ) : (
+        <TouchableOpacity style={styles.createBtn} onPress={()=>navigation.navigate('Register')}>
+          <Text style={styles.createTxt}>Create Account</Text>
+        </TouchableOpacity>
+      )}
+      
+     
     </View>
   );
 };
+
+const { width, height } = Dimensions.get('window');
+const isSmallDevice = width < 375;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white'
   },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
+    fontSize: isSmallDevice ? 20 : 24,
+    marginBottom: isSmallDevice ? 10 : 20,
   },
   input: {
-    width: '80%',
+    width: isSmallDevice ? '90%' : '80%',
     marginBottom: 10,
     padding: 8,
     borderColor: 'gray',
@@ -109,6 +130,41 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
+  },
+  loginBtn: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 20,
+    width: '50%'
+  },
+  loginTxt: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  toggleBtn: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  toggleTxt: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  toggleText: {
+    marginTop: 10,
+  },
+  toggleLink: {
+    color: 'blue',
+  },
+  forgotBtn: {
+    marginTop: 10,
+  },
+  forgotTxt: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    fontSize: 16,
   },
 });
 

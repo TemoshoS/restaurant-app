@@ -26,7 +26,7 @@ const HomeScreen = () => {
           <View>
               <TouchableOpacity
                   style={styles.getButton}
-                  onPress={() => navigation.navigate('Restaurants')}>
+                  onPress={() => navigation.navigate('Login')}>
                   <Text style={styles.getTxt}>Get started</Text>
 
               </TouchableOpacity>

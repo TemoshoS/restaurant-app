@@ -1,8 +1,18 @@
-import { LOGIN_SUCCESS, REGISTER_SUCCESS, LOGOUT } from '../actions/authActions';
+import { 
+  LOGIN_SUCCESS, 
+  REGISTER_SUCCESS, 
+  LOGOUT ,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAILURE,} from '../actions/authActions';
 
 const initialState = {
   user: null,
   isAuthenticated: false,
+  forgotPasswordLoading: false,
+  forgotPasswordSuccess: false,
+  forgotPasswordError: null,
+  
 };
 
 const authReducer = (state = initialState, action) => {
@@ -13,6 +23,27 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
         isAuthenticated: true,
+      };
+      case FORGOT_PASSWORD_REQUEST:
+        return {
+          ...state,
+          forgotPasswordLoading: true,
+          forgotPasswordSuccess: false,
+          forgotPasswordError: null,
+        };
+      case FORGOT_PASSWORD_SUCCESS:
+        return {
+          ...state,
+          forgotPasswordLoading: false,
+          forgotPasswordSuccess: true,
+          forgotPasswordError: null,
+        };
+      case FORGOT_PASSWORD_FAILURE:
+      return {
+        ...state,
+        forgotPasswordLoading: false,
+        forgotPasswordSuccess: false,
+        forgotPasswordError: action.payload,
       };
     case LOGOUT:
       return {

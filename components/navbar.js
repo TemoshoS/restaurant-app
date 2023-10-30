@@ -1,8 +1,28 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // You can choose any icon you prefer
+import Icon from 'react-native-vector-icons/FontAwesome'; 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 
 const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(()=>{
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (user)=>{
+      if (user) {
+        setCurrentUser(user.displayName);
+        
+      } else {
+        setCurrentUser(null);
+        
+      }
+    });
+
+    return()=> unsubscribe();
+  },[]);
+
   const getCurrentTimeOfDay = () => {
     const currentHour = new Date().getHours();
     if (currentHour >= 0 && currentHour < 12) {
@@ -21,8 +41,8 @@ const Navbar = () => {
           Good {getCurrentTimeOfDay()},
         </Text>
         <View style={styles.userRow}>
-          <Icon name="user" size={20} color="#fff" /> {/* Adjust the icon and size */}
-          <Text style={styles.userText}>Temosho</Text>
+          <Icon name="user" size={20} color="#fff" /> 
+          <Text style={styles.userText}>{currentUser}</Text>
         </View>
       </View>
     </View>
@@ -51,7 +71,7 @@ const styles = StyleSheet.create({
     marginLeft: 100
   },
   userText: {
-    marginLeft: 10, // Adjust the margin to your preference
+    marginLeft: 10, 
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
