@@ -4,6 +4,8 @@ import { useDispatch } from 'react-redux';
 import { reserveTable } from '../actions/reserveAction';
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { Touchable } from 'react-native';
+import { getAuth, currentUser } from 'firebase/auth';
+
 
 // Define your ReservationScreen component
 const ReservationScreen = ({ route }) => {
@@ -60,43 +62,49 @@ const ReservationScreen = ({ route }) => {
     hideTimePicker();
   };
 
-  // Function to handle the reservation process
-  const handleReservation = () => {
-    let hasError = false; // Flag to track if any errors occurred
+ // Function to handle the reservation process
+const handleReservation = () => {
+  let hasError = false; // Flag to track if any errors occurred
 
-    // Validate full name
-    if (!fullName) {
-      setFullNameError('Please fill in full name');
-      hasError = true;
-    } else {
-      setFullNameError(''); // Clear the error message if it's filled
-    }
+  // Validate full name
+  if (!fullName) {
+    setFullNameError('Please fill in full name');
+    hasError = true;
+  } else {
+    setFullNameError(''); // Clear the error message if it's filled
+  }
 
-    // Validate email
-    if (!email) {
-      setEmailError('Please fill in email');
-      hasError = true;
-    } else {
-      setEmailError(''); // Clear the error message if it's filled
-    }
+  // Validate email
+  if (!email) {
+    setEmailError('Please fill in email');
+    hasError = true;
+  } else {
+    setEmailError(''); // Clear the error message if it's filled
+  }
 
-    // Validate phone number
-    if (!phone) {
-      setPhoneError('Please fill in phone number');
-      hasError = true;
-    } else {
-      setPhoneError(''); // Clear the error message if it's filled
-    }
-    // Validate number of guests (if necessary)
-    if (numOfGuests < 1) {
-      hasError = true;
-    }
+  // Validate phone number
+  if (!phone) {
+    setPhoneError('Please fill in phone number');
+    hasError = true;
+  } else {
+    setPhoneError(''); // Clear the error message if it's filled
+  }
+  // Validate number of guests (if necessary)
+  if (numOfGuests < 1) {
+    hasError = true;
+  }
 
-    if (hasError) {
-      return; // Prevent reservation if there are errors
-    } else {
-      // Continue with the reservation if there are no errors
+  if (hasError) {
+    return; // Prevent reservation if there are errors
+  } else {
+    // Continue with the reservation if there are no errors
+
+    const auth = getAuth();
+    const user = currentUser(auth);
+    if (user) {
+      // User is authenticated, you can access the user's ID
       const reservationData = {
+        userId: user.uid, // Save the current user's ID
         fullName,
         email,
         phone,
@@ -109,9 +117,7 @@ const ReservationScreen = ({ route }) => {
         numOfGuests,
       };
       dispatch(reserveTable(reservationData));
-
       setConfirmationVisible(true); // Show confirmation modal
-
 
       // Clear all fields after confirming the reservation
       setFullName('');
@@ -123,8 +129,12 @@ const ReservationScreen = ({ route }) => {
       setSelectedDate(new Date());
       setSelectedTime(new Date());
       setNumOfGuests(1);
+    } else {
+      // User is not authenticated, handle as needed
     }
-  };
+  }
+};
+
 
   // Function to hide the confirmation modal
   const hideConfimation = () => {
