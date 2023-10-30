@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { reserveTable } from '../actions/reserveAction';
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { Touchable } from 'react-native';
-import { getAuth, currentUser } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 
 // Define your ReservationScreen component
@@ -100,7 +100,7 @@ const handleReservation = () => {
     // Continue with the reservation if there are no errors
 
     const auth = getAuth();
-    const user = currentUser(auth);
+    onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is authenticated, you can access the user's ID
       const reservationData = {
@@ -132,9 +132,9 @@ const handleReservation = () => {
     } else {
       // User is not authenticated, handle as needed
     }
-  }
-};
+  });
 
+      }}
 
   // Function to hide the confirmation modal
   const hideConfimation = () => {

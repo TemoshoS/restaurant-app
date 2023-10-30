@@ -1,12 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchPastReservations } from '../actions/reserveAction';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 
 const PastReserevationScreen = ({ pastReservations, fetchPastReservations }) => {
+  const [currentUserId, setCurrentUserId] = useState(null);
+  
   useEffect(() => {
-    // Fetch past reservations when the component mounts or when fetchPastReservations changes
-    fetchPastReservations();
+
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserId(user.uid); 
+        fetchPastReservations(user.uid); 
+      } else {
+        setCurrentUserId(null);
+      }
+    });
+
+    return () => unsubscribe();
   }, [fetchPastReservations]);
 
   return (
