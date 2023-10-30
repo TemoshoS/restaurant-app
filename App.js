@@ -23,7 +23,7 @@ export default function App() {
 
   function MainStack() {
     return (
-      <Stack.Navigator initialRouteName='Login'>
+      <Stack.Navigator initialRouteName='Restaurants'>
         <Stack.Screen name="Restaurants" component={RestaurantScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Welcome' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Login' component={LoginScreen} options={{ headerShown: false }} />
