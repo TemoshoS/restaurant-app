@@ -10,6 +10,7 @@ import RestaurantDetailsScreen from './Screens/RestaurantDetailsScreen';
 import MenuScreen from './Screens/MenuScreen';
 import ReservationScreen from './Screens/ReservationScreen';
 import PastReserevationScreen from './Screens/PastReserevationScreen';
+import ProfileScreen from './Screens/ProfileScreen';
 import store from './store/store';
 import { Provider } from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name='RestaurantDetailsScreen' component={RestaurantDetailsScreen} options={{headerShown: false}}/>
         <Stack.Screen name='MenuScreen' component={MenuScreen} options={{headerShown: false}}/>
         <Stack.Screen name='ReservationScreen' component={ReservationScreen} options={{headerShown: false}}/>
+        <Stack.Screen name='profile' component={ProfileScreen} options={{headerShown: false}}/>
         <Stack.Screen name='ForgotPasswordScreen' component={ForgotPasswordScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     );
@@ -89,6 +91,22 @@ export default function App() {
             />
           ),
         }}/>
+
+<Tab.Screen 
+        name="profile" 
+        component={ProfileScreen} 
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="account"
+              color={color}
+              size={size}
+            />
+          ),
+        }}/>
+
+   
       </Tab.Navigator>
     );
   }

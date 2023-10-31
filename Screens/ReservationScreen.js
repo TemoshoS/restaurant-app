@@ -130,7 +130,7 @@ const handleReservation = () => {
       setSelectedTime(new Date());
       setNumOfGuests(1);
     } else {
-      // User is not authenticated, handle as needed
+      
     }
   });
 

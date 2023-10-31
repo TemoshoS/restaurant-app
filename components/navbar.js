@@ -1,12 +1,11 @@
 import React,{useState, useEffect} from 'react';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; 
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 
 const Navbar = () => {
   const [currentUser, setCurrentUser] = useState(null);
-  const goToHome = useNavigation();
 
   useEffect(()=>{
     const auth = getAuth();
@@ -35,29 +34,6 @@ const Navbar = () => {
     }
   };
 
-
-  const onLogout = () =>{
-    const auth = getAuth();
-
-    signOut(auth)
-    .then(()=>{
-
-      Alert.alert('Logout Successful', 'You have been logged out.',[
-        {text: 'OK', onPress: ()=> console.log('Ok Pressed')},
-      ]);
-
-      
-    goToHome.navigate('Login');
-    })
-    .catch((error)=>{
-      console.error('Logout error:', error);
-      Alert.alert('Logout Error', 'An error occurred while logging out.', [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ]);
-
-    })
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -69,9 +45,6 @@ const Navbar = () => {
           <Text style={styles.userText}>{currentUser}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={onLogout}>
-        <Text style={styles.logoutTxt}>Logout</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -102,13 +75,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
-  },
-  logoutText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
-    textDecorationLine: 'underline',
   },
 });
 

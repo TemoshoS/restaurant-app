@@ -1,10 +1,31 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { useState, useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../config/firebase';
 
 const HomeScreen = () => {
+    const [user, setUser] = useState(null);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const auth = getAuth();
+       
+    
+        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+          if (authUser) {
+            setUser(authUser);
+          } else {
+            setUser(null);
+          }
+        });
+    
+        return () => unsubscribe();
+      }, []);
+    
+
+  
 
   return (
       <View style={styles.container}>
@@ -26,7 +47,14 @@ const HomeScreen = () => {
           <View>
               <TouchableOpacity
                   style={styles.getButton}
-                  onPress={() => navigation.navigate('Login')}>
+                  onPress={() => {
+                      if (user) {
+                          navigation.navigate('Restaurants')
+                      } else {
+                          navigation.navigate('Login')
+                      }
+                  }}
+              >
                   <Text style={styles.getTxt}>Get started</Text>
 
               </TouchableOpacity>
