@@ -26,7 +26,8 @@ const PastReserevationScreen = ({ pastReservations, fetchPastReservations }) => 
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Reservation History</Text>
-      {pastReservations.map((reservation, index) => (
+      {pastReservations.length > 0 ?
+      pastReservations.map((reservation, index) => (
         <View key={index} style={styles.reservationCard}>
           <View style={styles.cardHeader}>
             <Text style={styles.reservationDate}>
@@ -50,7 +51,9 @@ const PastReserevationScreen = ({ pastReservations, fetchPastReservations }) => 
           <Text style={styles.label}>Number of Guests:</Text>
           <Text style={styles.info}>{reservation.numOfGuests}</Text>
         </View>
-      ))}
+      )):(
+        <Text style={styles.emptyMessage}>No past reservations found.</Text>
+      )}
     </ScrollView>
   );
 }

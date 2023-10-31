@@ -6,15 +6,17 @@ import Navbar from '../components/navbar';
 import Search from '../components/search';
 import { Ionicons } from '@expo/vector-icons';
 import { db } from '../config/firebase';
-import { updateDoc,  doc, getDoc } from 'firebase/firestore';
-
-
+import { auth } from '../config/firebase'; 
+import { updateDoc, doc, getDoc,getDocs, addDoc, collection } from 'firebase/firestore';
 
 
 const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState('');
+  const [favouriteRestaurants, setFavouriteRestaurants] = useState([]);
   const [likes, setLikes] = useState({});
+  const user = auth.currentUser;
+  const userId = user ? user.uid : null;
 
   useEffect(() => {
     fetchRestaurants();
@@ -29,8 +31,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   };
 
   const handleLike = async (restaurantId) => {
-
-    
     try {
       // Find the restaurant document in the Firestore collection
       const restaurantRef = doc(db, 'restaurants', restaurantId);
@@ -45,16 +45,38 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       // Update the ratings in the Firestore document
       await updateDoc(restaurantRef, { ratings: updatedRatings });
   
-      // You may want to update your local state with the updated ratings as well.
-      // For example, dispatch an action if you're using Redux.
+      // Check if the restaurant exists in the favoriteRestaurants collection
+      const favouriteRestaurantRef = collection(db, 'favouriteRestaurants');
+      const querySnapshot = await getDocs(favouriteRestaurantRef);
+      const likedRestaurant = querySnapshot.docs.find(
+        (doc) => doc.data().id === restaurantId
+      );
+  
+      if (likedRestaurant) {
+        // Update the ratings in the favoriteRestaurants collection
+        const likedRestaurantRef = doc(db, 'favouriteRestaurants', likedRestaurant.id);
+        await updateDoc(likedRestaurantRef, { ratings: updatedRatings ,userId: userId,});
+      } else {
+        // If the restaurant doesn't exist in the favoriteRestaurants collection, add it
+        const restaurantSnapshot = await getDoc(restaurantRef);
+        const restaurantData = restaurantSnapshot.data();
+        const restaurantWithRatings = {
+          ...restaurantData,
+          id: restaurantId,
+          ratings: updatedRatings,
+          userId: userId,
+        };
+  
+        await addDoc(favouriteRestaurantRef, restaurantWithRatings);
+      }
+  
       fetchRestaurants();
-
-      
     } catch (error) {
       console.error('Error updating ratings:', error);
     }
   };
-
+  
+  
  
   return (
     <View style={styles.container}>
