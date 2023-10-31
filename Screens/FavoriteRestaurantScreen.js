@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchRestaurants } from '../actions/restaurant';
+import { fetchFavoriteRestaurants } from '../actions/favoriteRestaurantActions';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 
-const FavoriteRestaurantScreen = ({ restaurants, fetchRestaurants }) => {
+const FavoriteRestaurantScreen = ({userId, favoriteRestaurants, fetchFavoriteRestaurants }) => {
   useEffect(() => {
-    fetchRestaurants();
-  }, [fetchRestaurants]);
+    
+    fetchFavoriteRestaurants(userId);
+  }, [fetchFavoriteRestaurants, userId]);
 
-  const filteredRestaurants = restaurants.filter((restaurant) => restaurant.ratings > 20);
+  const filteredRestaurants = favoriteRestaurants.filter((restaurant) => restaurant.ratings > 20);
 
   filteredRestaurants.sort((a, b) => b.ratings - a.ratings);
 
@@ -26,10 +27,11 @@ const FavoriteRestaurantScreen = ({ restaurants, fetchRestaurants }) => {
 };
 
 const mapStateToProps = (state) => ({
-  restaurants: state.restaurants.restaurants,
+  favoriteRestaurants: state.favoriteRestaurants.favoriteRestaurants,
+  userId: state.auth.user?.userId,
 });
 
-export default connect(mapStateToProps, { fetchRestaurants })(FavoriteRestaurantScreen);
+export default connect(mapStateToProps, { fetchFavoriteRestaurants })(FavoriteRestaurantScreen);
 
 const styles = StyleSheet.create({
   container: {
