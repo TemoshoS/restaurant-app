@@ -48,7 +48,7 @@ export default function App() {
      
       >
         <Tab.Screen 
-        name=" " 
+        name="home" 
         component={MainStack} 
         options={{
           headerShown: false,
@@ -63,7 +63,7 @@ export default function App() {
         }}
         />
         <Tab.Screen 
-        name="  " 
+        name="favourite" 
         
         component={FavoriteRestaurantScreen} 
         options={{
@@ -77,7 +77,7 @@ export default function App() {
           ),
         }}/>
         <Tab.Screen 
-        name="   " 
+        name="reservation" 
         component={PastReserevationScreen} 
         options={{
           headerShown: false,

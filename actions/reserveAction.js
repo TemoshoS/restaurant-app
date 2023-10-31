@@ -1,5 +1,5 @@
 import { db } from "../config/firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 export const RESERVE_SUCCESS = "RESERVE_SUCCESS";
 export const RESERVE_FAILURE = "RESERVE_FAILURE";
@@ -23,14 +23,27 @@ export const reserveTable = (reservationData) => {
   };
 };
 
-export const fetchPastReservations =()=>{
+export const fetchPastReservations = (userId) => {
   return async (dispatch) => {
-    const reservationsCollection = collection(db, 'Orders');
-    const snapshot = await getDocs(reservationsCollection);
-    const pastReservations=[];
-    snapshot.forEach((doc) => {
-      pastReservations.push(doc.data());
-    });
-    dispatch({ type: FETCH_PAST_RESERVATIONS, payload: pastReservations });
-  }
+    try {
+     
+      //query to fetch reservations based on the userId
+      const reservationsCollection = collection(db, 'Orders');
+      const userQuery = query(reservationsCollection, where('userId', '==', userId));
+
+      const snapshot = await getDocs(userQuery);
+
+      const pastReservations = [];
+      snapshot.forEach((doc) => {
+        pastReservations.push(doc.data());
+      });
+
+      
+      dispatch({ type: FETCH_PAST_RESERVATIONS, payload: pastReservations });
+    } catch (error) {
+      // Handle errors
+      console.error('Error fetching past reservations:', error); 
+    }
+  };
 }
+
