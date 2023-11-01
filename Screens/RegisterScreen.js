@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 const RegisterScreen = () => {
 
   const [name, setName] = useState('');
+  const [namerr, setNamerr] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reenterPassword, setReenterPassword] = useState('');
@@ -23,13 +24,15 @@ const RegisterScreen = () => {
 
   const handleRegister = async () => {
     // Reset previous validation errors and user exists message
+    setNamerr(null);
     setEmailError(null);
     setPasswordError(null);
     setReenterPasswordError(null);
     setUserExistsMessage('');
 
     // Validate all fields
-    if (!email || !password || !reenterPassword) {
+    if (!name || !email || !password || !reenterPassword) {
+      if (!name) setNamerr('Name is required');
       if (!email) setEmailError('Email is required');
       if (!password) setPasswordError('Password is required');
       if (!reenterPassword) setReenterPasswordError('Re-enter password is required');
@@ -89,6 +92,7 @@ const RegisterScreen = () => {
         placeholder="Name"
         onChangeText={(text) => setName(text)}
       />
+      {namerr && <Text style={styles.errorText}>{namerr}</Text>}
       <TextInput
         style={styles.input}
         placeholder="Email"

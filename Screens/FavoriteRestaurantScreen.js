@@ -29,20 +29,23 @@ const FavoriteRestaurantScreen = ({ favRestaurants, fetchFavouriteRestaurants })
 
  // Filter and sort the restaurants
  const filteredRestaurants = favRestaurants
- .filter((restaurant) => restaurant.ratings > 20 && restaurant.userId === currentUserID)
+ .filter((restaurant) => restaurant.ratings > 10 && restaurant.userId === currentUserID)
  .sort((a, b) => b.ratings - a.ratings);
 
   return (
     <ScrollView style={styles.container}>
-      <Text>nnn</Text>
-      {filteredRestaurants.map((restaurant) => (
+    {filteredRestaurants.length === 0 ? (
+      <Text style={styles.emptyMessage}>No favorite restaurants to display.</Text>
+    ) : (
+      filteredRestaurants.map((restaurant) => (
         <View key={restaurant.id} style={styles.restaurantCard}>
           <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
           <Text style={styles.restaurantName}>Name: {restaurant.restName}</Text>
           <Text style={styles.restaurantRating}>Rating: {restaurant.ratings}</Text>
         </View>
-      ))}
-    </ScrollView>
+      ))
+    )}
+  </ScrollView>
   );
 };
 

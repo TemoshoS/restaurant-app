@@ -55,6 +55,10 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       if (likedRestaurant) {
         // Update the ratings in the favoriteRestaurants collection
         const likedRestaurantRef = doc(db, 'favouriteRestaurants', likedRestaurant.id);
+        const likedRestaurantSnapshot = await getDoc(likedRestaurantRef);
+        const currentRatings = likedRestaurantSnapshot.data().ratings || 0;
+        const updatedRatings = currentRatings + 0.5;
+
         await updateDoc(likedRestaurantRef, { ratings: updatedRatings ,userId: userId,});
       } else {
         // If the restaurant doesn't exist in the favoriteRestaurants collection, add it
@@ -63,7 +67,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         const restaurantWithRatings = {
           ...restaurantData,
           id: restaurantId,
-          ratings: updatedRatings,
+          ratings: 1,
           userId: userId,
         };
   
