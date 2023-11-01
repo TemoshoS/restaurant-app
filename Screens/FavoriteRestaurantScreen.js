@@ -1,20 +1,40 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchFavoriteRestaurants } from '../actions/favoriteRestaurantActions';
+import { fetchFavouriteRestaurants } from '../actions/favoriteRestaurantActions';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
-const FavoriteRestaurantScreen = ({userId, favoriteRestaurants, fetchFavoriteRestaurants }) => {
+const FavoriteRestaurantScreen = ({ favRestaurants, fetchFavouriteRestaurants }) => {
+  const [currentUserID, setCurrentUserID] = useState(null);
+ 
   useEffect(() => {
-    
-    fetchFavoriteRestaurants(userId);
-  }, [fetchFavoriteRestaurants, userId]);
+    fetchFavouriteRestaurants();
 
-  const filteredRestaurants = favoriteRestaurants.filter((restaurant) => restaurant.ratings > 20);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUserID(user.uid);
+        
+      } else {
+        setCurrentUserID(null);
+      }
+    });
 
-  filteredRestaurants.sort((a, b) => b.ratings - a.ratings);
+    return () => unsubscribe();
+
+  }, []);
+  
+
+  
+
+ // Filter and sort the restaurants
+ const filteredRestaurants = favRestaurants
+ .filter((restaurant) => restaurant.ratings > 20 && restaurant.userId === currentUserID)
+ .sort((a, b) => b.ratings - a.ratings);
 
   return (
     <ScrollView style={styles.container}>
+      <Text>nnn</Text>
       {filteredRestaurants.map((restaurant) => (
         <View key={restaurant.id} style={styles.restaurantCard}>
           <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
@@ -27,11 +47,10 @@ const FavoriteRestaurantScreen = ({userId, favoriteRestaurants, fetchFavoriteRes
 };
 
 const mapStateToProps = (state) => ({
-  favoriteRestaurants: state.favoriteRestaurants.favoriteRestaurants,
-  userId: state.auth.user?.userId,
+  favRestaurants: state.favoriteRestaurants.favRestaurants,
 });
 
-export default connect(mapStateToProps, { fetchFavoriteRestaurants })(FavoriteRestaurantScreen);
+export default connect(mapStateToProps, { fetchFavouriteRestaurants })(FavoriteRestaurantScreen);
 
 const styles = StyleSheet.create({
   container: {

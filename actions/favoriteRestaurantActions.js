@@ -1,22 +1,16 @@
 import { db } from "../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection ,getDocs} from "firebase/firestore";
 
-export const FETCH_FAVORITE_RESTAURANTS = 'FETCH_FAVORITE_RESTAURANTS';
+export const FETCH_FAV_RESTAURANTS = 'FETCH_FAV_RESTAURANTS';
 
-export const fetchFavoriteRestaurants = (userId) => {
+export const fetchFavouriteRestaurants = () => {
   return async (dispatch) => {
-    const favoriteRestaurantsCollection = collection(db, 'favouriteRestaurants');
-    const snapshot = await getDocs(favoriteRestaurantsCollection);
-
-
-    const favoriteRestaurants = [];
+    const restaurantsCollection = collection(db, 'favouriteRestaurants');
+    const snapshot = await getDocs(restaurantsCollection);
+    const favRestaurants = [];
     snapshot.forEach((doc) => {
-      const data = doc.data();
-      if (data.userId === userId) {
-        favoriteRestaurants.push(data);
-      }
+      favRestaurants.push(doc.data());
     });
-
-    dispatch({ type: FETCH_FAVORITE_RESTAURANTS, payload: favoriteRestaurants });
+    dispatch({ type: FETCH_FAV_RESTAURANTS, payload: favRestaurants });
   };
 };

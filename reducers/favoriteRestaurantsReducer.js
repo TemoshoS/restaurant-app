@@ -1,16 +1,21 @@
-import { FETCH_FAVORITE_RESTAURANTS } from "../actions/favoriteRestaurantActions";
+import { FETCH_FAV_RESTAURANTS } from "../actions/favoriteRestaurantActions";
+
 
 const initialState = {
-  favoriteRestaurants: [],
+    favRestaurants: [],
 };
 
-const favoriteRestaurantsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case FETCH_FAVORITE_RESTAURANTS:
-      return { ...state, favoriteRestaurants: action.payload };
-    default:
-      return state;
-  }
+const favRestaurantsReducer = (state = initialState, action) =>{
+
+    switch (action.type) {
+        case FETCH_FAV_RESTAURANTS:
+          return { ...state, favRestaurants: action.payload };
+        default:
+          return state;
+      }
+
+
 };
 
-export default favoriteRestaurantsReducer;
+export default favRestaurantsReducer;
+  
