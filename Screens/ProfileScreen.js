@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity ,Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import PastReserevationScreen from './PastReserevationScreen';
 
 const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
   useEffect(() => {
     const auth = getAuth();
-   
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -25,24 +25,31 @@ const ProfileScreen = () => {
 
   const onLogout = () => {
     const auth = getAuth();
+
+    setLoading(true);
+
     signOut(auth)
-    .then(()=>{
+      .then(() => {
+        setLoading(false);
 
-      setTimeout(()=>{
-      Alert.alert('Logout Successful', 'You have been logged out.',[
-        {text: 'OK', onPress: ()=> console.log('Ok Pressed')},
-      ]);
+        setTimeout(() => {
+          Alert.alert('Logout Successful', 'You have been logged out.', [
+            { text: 'OK', onPress: () => console.log('Ok Pressed') },
+          ]);
+        }, 100);
+        navigation.navigate('Welcome');
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error('Logout error:', error);
+        Alert.alert('Logout Error', 'An error occurred while logging out.', [
+          { text: 'OK', onPress: () => console.log('OK Pressed') },
+        ]);
+      });
+  };
 
-    },100);
-      
-    })
-    .catch((error)=>{
-      console.error('Logout error:', error);
-      Alert.alert('Logout Error', 'An error occurred while logging out.', [
-        { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ]);
-
-    })
+  const navigateToPastReservations = () => {
+    navigation.navigate('reservation');
   };
 
   return (
@@ -52,9 +59,14 @@ const ProfileScreen = () => {
           Welcome, {currentUser ? currentUser : 'Guest'}
         </Text>
       </View>
-      <TouchableOpacity onPress={onLogout}>
+      <TouchableOpacity onPress={onLogout} disabled={loading}>
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
+      {loading && <ActivityIndicator size="small" color="#0000ff" />}
+      <TouchableOpacity onPress={navigateToPastReservations}>
+        <Text style={styles.logoutText}>View Past Reservations</Text>
+      </TouchableOpacity>
+      
     </View>
   );
 };
@@ -76,6 +88,7 @@ const styles = StyleSheet.create({
     color: 'blue',
     fontSize: 16,
     textDecorationLine: 'underline',
+    marginVertical: 5,
   },
 });
 

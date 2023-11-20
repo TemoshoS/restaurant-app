@@ -115,6 +115,7 @@ const handleReservation = () => {
         restLocation,
         selectedDate,
         numOfGuests,
+        status: 'pending',
       };
       dispatch(reserveTable(reservationData));
       setConfirmationVisible(true); // Show confirmation modal

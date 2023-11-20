@@ -3,7 +3,7 @@ import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 export const RESERVE_SUCCESS = "RESERVE_SUCCESS";
 export const RESERVE_FAILURE = "RESERVE_FAILURE";
-
+export const FETCH_ALL_RESERVATIONS = 'FETCH_ALL_RESERVATIONS';
 export const FETCH_PAST_RESERVATIONS = 'ETCH_PAST_RESERVATIONS';
 
 
@@ -47,3 +47,22 @@ export const fetchPastReservations = (userId) => {
   };
 }
 
+
+export const fetchAllReservations = () => {
+  return async (dispatch) => {
+    try {
+      // Query to fetch all reservations
+      const reservationsCollection = collection(db, 'Orders');
+      const snapshot = await getDocs(reservationsCollection);
+      const allReservations = [];
+
+      snapshot.forEach((doc) => {
+        allReservations.push(doc.data());
+      });
+
+      dispatch({ type: FETCH_ALL_RESERVATIONS, payload: allReservations });
+    } catch (error) {
+      console.error('Error fetching all reservations:', error);
+    }
+  };
+};

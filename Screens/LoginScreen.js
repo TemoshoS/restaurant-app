@@ -40,7 +40,7 @@ const LoginScreen = () => {
         setLoginError('User does not exist.');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      
       if (error.code === 'auth/user-not-found') {
         setLoginError('User does not exist.');
       } else if (error.code === 'auth/wrong-password') {
