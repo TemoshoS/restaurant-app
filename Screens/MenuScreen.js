@@ -85,8 +85,7 @@ const MenuScreen = ({ route }) => {
   };
 
   const user = auth.currentUser;
-  const isAdmin = user ? user.email === 'temosho@admin.co' : false; // Replace with your admin email
-
+  const isAdmin = user ? user.email === 'temosho@admin.co' : false; 
   const toggleCreateModal = () => {
     setCreateModalVisible(!isCreateModalVisible);
   };

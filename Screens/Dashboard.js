@@ -12,10 +12,7 @@ const Dashboard = ({ allReservations, fetchAllReservations }) => {
   return (
     <View>
       <Text>Dashboard</Text>
-      {/* Display all reservations here */}
-      {allReservations.map((reservation) => (
-        <Text key={reservation.id}>{/* Display reservation details here */}</Text>
-      ))}
+      
     </View>
   );
 };
