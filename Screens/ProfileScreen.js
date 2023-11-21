@@ -8,6 +8,11 @@ const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const userId = user ? user.uid : null;
+  const isAdmin = user ? user.email === 'temosho@admin.co' : false;
+
 
   useEffect(() => {
     const auth = getAuth();
@@ -52,6 +57,10 @@ const ProfileScreen = () => {
     navigation.navigate('reservation');
   };
 
+  const adminOrders = () => {
+    navigation.navigate('dashboard');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.user}>
@@ -63,10 +72,17 @@ const ProfileScreen = () => {
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
       {loading && <ActivityIndicator size="small" color="#0000ff" />}
-      <TouchableOpacity onPress={navigateToPastReservations}>
-        <Text style={styles.logoutText}>View Past Reservations</Text>
-      </TouchableOpacity>
       
+      
+      {!isAdmin ? (
+        <TouchableOpacity onPress={adminOrders}>
+          <Text style={styles.logoutText}>View Customer Reservations</Text>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity onPress={navigateToPastReservations}>
+          <Text style={styles.logoutText}>View Reservations</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

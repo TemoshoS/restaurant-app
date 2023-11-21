@@ -127,6 +127,12 @@ const RegisterScreen = () => {
       </TouchableOpacity>
 
       <Button title="Register" onPress={handleRegister} />
+
+      <View style={styles.sameRow}><Text>Already have an account? </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.forgotTxt}>Login</Text>
+      </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -161,6 +167,15 @@ const styles = StyleSheet.create({
   showPasswordButton: {
     marginTop: 10,
   },
+  forgotTxt: {
+    color: 'blue',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+  },
+  sameRow:{
+    flexDirection: 'row',
+    marginTop: 10,
+  }
 });
 
 export default RegisterScreen;

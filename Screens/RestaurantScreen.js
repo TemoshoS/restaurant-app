@@ -45,7 +45,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const user = auth.currentUser;
   const userId = user ? user.uid : null;
-  const isAdmin = user ? user.email === 'temosho@admin.co' : false; // Replace with your admin email
+  const isAdmin = user ? user.email === 'temosho@admin.co' : false;
 
   useEffect(() => {
     fetchRestaurants();
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     elevation: 5,
   },
-  // Styles for the modal
+
   modalContainer: {
     flex: 1,
     justifyContent: 'center',

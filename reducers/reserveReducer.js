@@ -1,10 +1,11 @@
-import { RESERVE_SUCCESS, RESERVE_FAILURE,FETCH_ALL_RESERVATIONS, FETCH_PAST_RESERVATIONS } from "../actions/reserveAction";
+import { RESERVE_SUCCESS, RESERVE_FAILURE, FETCH_PAST_RESERVATIONS,FETCH_ALL_RESERVATIONS } from "../actions/reserveAction";
 
 const initialState = {
   reservationSuccess: null,
   reservationError: null,
   pastReservations: [],
   allReservations: [],
+  loading: false,
 };
 
 const reserveReducer = (state = initialState, action) => {
@@ -15,8 +16,8 @@ const reserveReducer = (state = initialState, action) => {
       return { ...state, reservationSuccess: null, reservationError: action.payload };
     case FETCH_PAST_RESERVATIONS:
       return { ...state, pastReservations: action.payload };
-    case FETCH_ALL_RESERVATIONS:
-      return { ...state, allReservations: action.payload };
+      case FETCH_ALL_RESERVATIONS:
+        return { ...state, allReservations: action.payload, loading: false };
     default:
       return state;
   }

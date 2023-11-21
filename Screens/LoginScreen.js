@@ -12,7 +12,9 @@ const LoginScreen = () => {
   const [emailError, setEmailError] = useState(null);
   const [passwordError, setPasswordError] = useState(null);
   const [loginError, setLoginError] = useState(null);
-  const [isSignUp, setIsSignUp] = useState(false); 
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+ 
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -46,6 +48,9 @@ const LoginScreen = () => {
       } else if (error.code === 'auth/wrong-password') {
         setLoginError('Incorrect password.');
       }
+      else{
+        setLoginError('Please enter valid email and password');
+      }
     }
 
     console.log('handleLogin function called');
@@ -70,13 +75,17 @@ const LoginScreen = () => {
       {emailError && <Text style={styles.errorText}>{emailError}</Text>}
 
       <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry
-      />
-      {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
+  style={styles.input}
+  placeholder="Password"
+  onChangeText={(text) => setPassword(text)}
+  secureTextEntry={!showPassword}
+/>
 
+
+      {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
+<TouchableOpacity style={styles.showPasswordButton} onPress={() => setShowPassword(!showPassword)}>
+  <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
+</TouchableOpacity>
       {loginError && <Text style={styles.errorText}>{loginError}</Text>}
       
       <TouchableOpacity style={styles.forgotBtn} onPress={()=>navigation.navigate('ForgotPasswordScreen')}>
@@ -166,6 +175,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 16,
   },
+  showPasswordButton: {
+    marginTop: 10,
+    marginBottom: 20, 
+  },
+  
 });
 
 export default LoginScreen;
