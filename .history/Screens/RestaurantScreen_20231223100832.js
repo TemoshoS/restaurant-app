@@ -42,7 +42,9 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     restWebsite: '',
   });
   const [image, setImage] = useState(null);
+
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
   const user = auth.currentUser;
   const userId = user ? user.uid : null;
   const isAdmin = user ? user.email === 'temosho@admin.co' : false;

@@ -30,7 +30,7 @@ const PastReservationScreen = ({ pastReservations, fetchPastReservations }) => {
         return 'red'; 
         case 'pending':
           return 'yellow';
-          case 'rejected':
+          case 'canceled':
         return 'red'; 
       default:
         return '#E7E6E1';

@@ -42,7 +42,9 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     restWebsite: '',
   });
   const [image, setImage] = useState(null);
+
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
   const user = auth.currentUser;
   const userId = user ? user.uid : null;
   const isAdmin = user ? user.email === 'temosho@admin.co' : false;
@@ -139,11 +141,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleUpdateRestaurant = async () => {
     try {
-
-      // if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restPhone|| !newRestaurantData.restWebsite) {
-      //   alert('Please fill in all required fields.');
-      //   return;
-      // }
       const { restImage, ...updatedRestaurant } = selectedRestaurant;
       const restaurantRef = doc(db, 'restaurants', selectedRestaurant.id);
   
@@ -169,18 +166,17 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const handleAdd = async () => {
     try {
 
-      if (!image) {
-        alert('Please select an image.');
-        return;
-      }
-
-      if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restPhone|| !newRestaurantData.restWebsite) {
+      if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restLocation|| !newRestaurantData.restLocation) {
         alert('Please fill in all required fields.');
         return;
       }
       const restaurantsCollectionRef = collection(db, 'restaurants');
   
-  
+      
+      if (!image) {
+        console.error('Please select an image.');
+        return;
+      }
   
       const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
       await uploadBytes(imageRef, image);

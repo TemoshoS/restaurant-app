@@ -42,7 +42,9 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     restWebsite: '',
   });
   const [image, setImage] = useState(null);
+
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+
   const user = auth.currentUser;
   const userId = user ? user.uid : null;
   const isAdmin = user ? user.email === 'temosho@admin.co' : false;
@@ -139,11 +141,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleUpdateRestaurant = async () => {
     try {
-
-      // if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restPhone|| !newRestaurantData.restWebsite) {
-      //   alert('Please fill in all required fields.');
-      //   return;
-      // }
       const { restImage, ...updatedRestaurant } = selectedRestaurant;
       const restaurantRef = doc(db, 'restaurants', selectedRestaurant.id);
   
@@ -168,19 +165,13 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleAdd = async () => {
     try {
-
-      if (!image) {
-        alert('Please select an image.');
-        return;
-      }
-
-      if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restPhone|| !newRestaurantData.restWebsite) {
-        alert('Please fill in all required fields.');
-        return;
-      }
       const restaurantsCollectionRef = collection(db, 'restaurants');
   
-  
+      
+      if (!image) {
+        console.error('Please select an image.');
+        return;
+      }
   
       const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
       await uploadBytes(imageRef, image);
@@ -293,12 +284,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Add New Restaurant</Text>
-             {/* Image picker button */}
-            
-            {image && <Image source={{ uri: image }} style={{ width: 230, height: 200 }} />}
-            <TouchableOpacity style={styles.modalButton} onPress={pickImage}>
-              <Text style={styles.modalButtonText}>Upload Image</Text>
-            </TouchableOpacity>
             <TextInput
               style={styles.input}
               placeholder="Restaurant Name"
@@ -309,6 +294,14 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
               placeholder="Restaurant Location"
               onChangeText={(text) => handleInputChange('restLocation', text)}
             />
+
+            {/* Image picker button */}
+            
+            <TouchableOpacity style={styles.modalButton} onPress={pickImage}>
+              <Text style={styles.modalButtonText}>Upload Image</Text>
+            </TouchableOpacity>
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+
             <TextInput
               style={styles.input}
               placeholder="Description"
@@ -345,12 +338,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Update Restaurant</Text>
-            {selectedRestaurant && selectedRestaurant.restImage && (
-        <Image
-          source={{ uri: selectedRestaurant.restImage }}
-          style={{ width: 225, height: 200, marginBottom: 10 }}
-        />
-      )}
             <TextInput
               style={styles.input}
               placeholder="Updated Restaurant Name"
