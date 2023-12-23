@@ -30,9 +30,8 @@ export default function App() {
   useEffect(() => {
     const checkAdminStatus = async () => {
       const user = auth.currentUser;
-      const isAdminUser = user ? user.email === 'temosho@admin.co' : false; 
+      const isAdminUser = user ? user.email === 'temosho@admin.co' : false; // Replace with your admin email
       setIsAdmin(isAdminUser);
-      console.log('isAdmin:', isAdminUser);
     };
 
     checkAdminStatus();
@@ -106,8 +105,6 @@ export default function App() {
   }
 
   function TabNavigator() {
-    
-  
     return (
       <Tab.Navigator
         tabBarOptions={{
@@ -137,7 +134,7 @@ export default function App() {
             }}
           />
         )}
-        {!isAdmin && (
+        {isAdmin && (
           <Tab.Screen
             name="reservation"
             component={PastReserevationScreen}
@@ -163,6 +160,7 @@ export default function App() {
     );
   }
   
+
   return (
     <Provider store={store}>
       <NavigationContainer>

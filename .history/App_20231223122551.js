@@ -32,7 +32,6 @@ export default function App() {
       const user = auth.currentUser;
       const isAdminUser = user ? user.email === 'temosho@admin.co' : false; 
       setIsAdmin(isAdminUser);
-      console.log('isAdmin:', isAdminUser);
     };
 
     checkAdminStatus();
@@ -106,8 +105,6 @@ export default function App() {
   }
 
   function TabNavigator() {
-    
-  
     return (
       <Tab.Navigator
         tabBarOptions={{
@@ -163,6 +160,7 @@ export default function App() {
     );
   }
   
+
   return (
     <Provider store={store}>
       <NavigationContainer>

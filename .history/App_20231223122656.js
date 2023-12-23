@@ -106,8 +106,6 @@ export default function App() {
   }
 
   function TabNavigator() {
-    
-  
     return (
       <Tab.Navigator
         tabBarOptions={{
@@ -163,6 +161,7 @@ export default function App() {
     );
   }
   
+
   return (
     <Provider store={store}>
       <NavigationContainer>

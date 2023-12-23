@@ -106,7 +106,7 @@ export default function App() {
   }
 
   function TabNavigator() {
-    
+    console.log('Rendering TabNavigator, isAdmin:', isAdmin);
   
     return (
       <Tab.Navigator
