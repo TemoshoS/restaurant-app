@@ -140,7 +140,7 @@ const MenuScreen = ({ route }) => {
 
   const handleDelete = async (menuId) => {
     try {
-      const wantDelete = window.confirm('Are you sure you want to delete this menu?');
+      const wantDelete = window.confirm('Are you sure you want to delete this restaurant?');
 
       if (wantDelete) {
         const menuRef = doc(db, 'Menu', menuId);

@@ -7,7 +7,6 @@ import {
   FlatList,
   TouchableOpacity,
   TextInput,
-  Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchRestaurants } from '../actions/restaurant';
@@ -159,19 +158,14 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleDelete = async (restaurantId) => {
     try {
-      const wantDelete = window.confirm('Are you sure you want to delete this restaurant?');
-  
-      if (wantDelete) {
-        const restaurantRef = doc(db, 'restaurants', restaurantId);
-        await deleteDoc(restaurantRef);
-        fetchRestaurants(); 
-      }
-      
+      const restaurantRef = doc(db, 'restaurants', restaurantId);
+      await deleteDoc(restaurantRef);
+      fetchRestaurants();
     } catch (error) {
       console.error('Error deleting restaurant:', error);
     }
   };
-  
+
   const handleAdd = async () => {
     try {
 
@@ -272,10 +266,10 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
             {isAdmin && (
               <View style={styles.actionButtons}>
                 <TouchableOpacity style={styles.updateButton} onPress={() => handleUpdate(item.id)}>
-                  <Ionicons name="create" size={24} color="#6082B6" />
+                  <Ionicons name="create" size={25} color="#6082B6" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
-                  <Ionicons name="trash" size={24} color="#FF003F" />
+                  <Ionicons name="trash" size={25} color="#FF003F" />
                 </TouchableOpacity>
               </View>
             )}

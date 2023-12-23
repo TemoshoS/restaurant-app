@@ -160,18 +160,19 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const handleDelete = async (restaurantId) => {
     try {
       const wantDelete = window.confirm('Are you sure you want to delete this restaurant?');
-  
+
       if (wantDelete) {
-        const restaurantRef = doc(db, 'restaurants', restaurantId);
-        await deleteDoc(restaurantRef);
-        fetchRestaurants(); 
+        alert(wantDelete);
+       const restaurantRef = doc(db, 'restaurants', restaurantId);
+      await deleteDoc(restaurantRef);
+      fetchRestaurants(); 
       }
       
     } catch (error) {
       console.error('Error deleting restaurant:', error);
     }
   };
-  
+
   const handleAdd = async () => {
     try {
 

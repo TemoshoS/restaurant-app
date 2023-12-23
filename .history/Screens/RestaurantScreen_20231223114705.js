@@ -159,19 +159,33 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleDelete = async (restaurantId) => {
     try {
-      const wantDelete = window.confirm('Are you sure you want to delete this restaurant?');
-  
-      if (wantDelete) {
-        const restaurantRef = doc(db, 'restaurants', restaurantId);
-        await deleteDoc(restaurantRef);
-        fetchRestaurants(); 
-      }
-      
+      // Display an alert to confirm deletion
+      alert(
+        'Confirm Deletion',
+        'Are you sure you want to delete this restaurant?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Delete',
+            onPress: async () => {
+              const restaurantRef = doc(db, 'restaurants', restaurantId);
+              await deleteDoc(restaurantRef);
+              fetchRestaurants();
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: false }
+      );
     } catch (error) {
       console.error('Error deleting restaurant:', error);
     }
   };
   
+
   const handleAdd = async () => {
     try {
 
