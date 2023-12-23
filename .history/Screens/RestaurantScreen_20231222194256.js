@@ -164,7 +164,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     try {
       const restaurantsCollectionRef = collection(db, 'restaurants');
   
-      
+      // Ensure that an image is selected
       if (!image) {
         console.error('Please select an image.');
         return;
@@ -205,13 +205,12 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       if (!result.cancelled) {
         setImage(result.uri);
   
-        
-        const contentType = "image/jpeg";
-  
+        // Set the content type
+        const contentType = result.type;
         const response = await fetch(result.uri);
         const blob = await response.blob();
   
-        
+        // Update the uploadBytes function with the content type
         const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
         await uploadBytes(imageRef, blob, { contentType });
       }

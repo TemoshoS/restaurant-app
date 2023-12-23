@@ -164,7 +164,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     try {
       const restaurantsCollectionRef = collection(db, 'restaurants');
   
-      
+      // Ensure that an image is selected
       if (!image) {
         console.error('Please select an image.');
         return;
@@ -194,31 +194,28 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   };
 
   const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 3],
-        quality: 1,
-      });
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
   
-      if (!result.cancelled) {
-        setImage(result.uri);
+    console.log(result);
   
-        
-        const contentType = "image/jpeg";
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
   
-        const response = await fetch(result.uri);
-        const blob = await response.blob();
+      // Add the following lines to set the content type
+      const contentType = result.assets[0].type;
+      const blob = await fetch(result.assets[0].uri).then((r) => r.blob());
   
-        
-        const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
-        await uploadBytes(imageRef, blob, { contentType });
-      }
-    } catch (error) {
-      console.error('Error picking image:', error);
+      // Update the uploadBytes function with the content type
+      const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
+      await uploadBytes(imageRef, blob, { contentType });
     }
   };
+  
   
 
   return (

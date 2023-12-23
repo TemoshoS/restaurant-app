@@ -164,7 +164,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     try {
       const restaurantsCollectionRef = collection(db, 'restaurants');
   
-      
+      // Ensure that an image is selected
       if (!image) {
         console.error('Please select an image.');
         return;
