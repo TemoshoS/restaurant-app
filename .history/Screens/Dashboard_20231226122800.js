@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView,TouchableOpacity } from 'react-native';
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import Modal from 'react-native-modal';
@@ -10,31 +10,28 @@ const Dashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [tableNumber, setTableNumber] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [errorTable, setErrorTable] = useState('');
-  const [showRejectionInput, setShowRejectionInput] = useState(false);
-  const [reason, setReason] = useState('');
-  const [isBooking, setIsBooking] = useState(true);
+  const [rejectionMessage, setRejectionMessage] = useState('');
 
-  const fetchPendingOrders = async () => {
-    const ordersCollection = collection(db, 'Orders');
-    const ordersQuery = query(ordersCollection, where('status', '==', 'pending'));
+   const fetchPendingOrders = async () => {
+      const ordersCollection = collection(db, 'Orders');
+      const ordersQuery = query(ordersCollection, where('status', '==', 'pending'));
 
-    try {
-      const querySnapshot = await getDocs(ordersQuery);
+      try {
+        const querySnapshot = await getDocs(ordersQuery);
 
-      const orders = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+        const orders = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-      setPendingOrders(orders);
-    } catch (error) {
-      console.error('Error fetching pending orders:', error);
-    }
-  };
+        setPendingOrders(orders);
+      } catch (error) {
+        console.error('Error fetching pending orders:', error);
+      }
+    };
 
   useEffect(() => {
-
+ 
 
     fetchPendingOrders();
   }, []);
@@ -44,61 +41,32 @@ const Dashboard = () => {
     setIsModalVisible(true);
   };
 
-  const handleBookOrder = async () => {
-    if (!tableNumber || isNaN(tableNumber)) {
-      setErrorTable('Please enter a valid table number.');
-      return;
-    }
-
+  const handleChangeStatus = async (newStatus) => {
     if (selectedOrder) {
       const orderRef = doc(db, 'Orders', selectedOrder.id);
 
       try {
         await updateDoc(orderRef, {
-          status: 'booked',
-          tableNumber: tableNumber,
+          status: newStatus,
+          tableNumber: tableNumber, 
         });
 
+      
         fetchPendingOrders();
 
+       
         setSelectedOrder(null);
         setTableNumber('');
-        setIsBooking(true);
         setIsModalVisible(false);
       } catch (error) {
         console.error('Error updating order status:', error);
       }
     }
+
   };
-
-  const handleRejectOrder = async () => {
-
-    if (selectedOrder) {
-      const orderRef = doc(db, 'Orders', selectedOrder.id);
-
-      try {
-        await updateDoc(orderRef, {
-          status: 'rejected',
-          reason: reason,
-        });
-
-        fetchPendingOrders();
-
-        setSelectedOrder(null);
-        setTableNumber('');
-        setReason('');
-        setIsBooking(false);
-        setIsModalVisible(false);
-        setShowRejectionInput(false);
-      } catch (error) {
-        console.error('Error updating order status:', error);
-      }
-    }
-  };
-
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView contentContainerStyle ={styles.container}>
       <Text style={styles.title}>Dashboard</Text>
 
       <View style={styles.orderList}>
@@ -109,10 +77,10 @@ const Dashboard = () => {
             <Text style={styles.orderInfo}>Phone Number: {order.phone}</Text>
             <Text style={styles.orderInfo}>Number of guests: {order.numOfGuests}</Text>
             <Text style={styles.orderInfo}>Ocassion: {order.occasion}</Text>
-
+            
             <View style={styles.statusInfo}>
-              <Text style={styles.orderStatus}></Text>
-              <Text style={styles.orderInfo}>{order.status}</Text>
+            <Text style={styles.orderStatus}></Text>  
+            <Text style={styles.orderInfo}>{order.status}</Text>  
             </View>
             <TouchableOpacity style={styles.selectBtn} onPress={() => handleSelectOrder(order)}>
               <Text style={styles.selectTxt}>Select Order</Text>
@@ -127,63 +95,16 @@ const Dashboard = () => {
           <Text style={styles.selectedOrderTitle}>Selected Order:</Text>
           <Text style={styles.selectedOrderInfo}>{selectedOrder?.fullName}</Text>
           <Text style={styles.selectedOrderInfo}>Table Number:</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (!showRejectionInput) {
-                setShowRejectionInput(true);
-              } else {
-                handleRejectOrder();
-                setShowRejectionInput(false);
-              }
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {showRejectionInput ? 'Confirm' : 'Reject Booking'}
-            </Text>
-          </TouchableOpacity>
-
-          {showRejectionInput && (
-            <View>
-              <Text style={styles.selectedOrderInfo}>Rejection Message:</Text>
-              <TextInput
-                style={styles.input}
-                value={reason}
-                onChangeText={(text) => setReason(text)}
-                placeholder="Enter Rejection Message"
-              />
-            </View>
-          )}
-
-          {!showRejectionInput && (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleBookOrder()}
-              >
-                <Text style={styles.buttonText}>Book Booking</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.selectedOrderInfo}>Table Number:</Text>
-              <TextInput
-                style={styles.input}
-                value={tableNumber}
-                onChangeText={(text) => setTableNumber(text.replace(/[^0-9]/g, ''))}
-                keyboardType="numeric"
-                placeholder="Enter Table Number"
-              />
-              {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
-            </>
-          )}
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setIsModalVisible(false)}
-          >
-            <Text style={styles.buttonText}>Close</Text>
-          </TouchableOpacity>
-
-
-
+          <TextInput
+            style={styles.input}
+            value={tableNumber}
+            onChangeText={(text) => setTableNumber(text)}
+            placeholder="Enter Table Number"
+          />
+          <Button title="Book Order" onPress={() => handleChangeStatus('booked')} />
+          <Button title="Reject Order" onPress={() => handleChangeStatus('rejected')} />
+          <Button title="Close" onPress={() => setIsModalVisible(false)} />
+         
         </View>
       </Modal>
     </ScrollView>
@@ -194,10 +115,9 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     backgroundColor: '#83764F',
-
+    
   },
   title: {
     fontSize: 24,
@@ -226,25 +146,25 @@ const styles = StyleSheet.create({
   orderInfo: {
     fontSize: 16,
     marginBottom: 8,
-    color: 'gray',
-    fontWeight: 'bold',
+    color:'gray',
+    fontWeight:'bold',
     fontFamily: ''
   },
-  statusInfo: {
+  statusInfo:{
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
   },
   orderStatus: {
-
+    
     width: 25,
     height: 25,
     marginBottom: 8,
     backgroundColor: 'red',
     borderRadius: 12.5,
     marginRight: 8
-
-
+    
+    
   },
   selectBtn: {
     backgroundColor: '#83764F',
@@ -257,7 +177,7 @@ const styles = StyleSheet.create({
   selectTxt: {
     color: '#F3EEEA',
     fontWeight: 'bold',
-
+    
   },
   selectedOrderContainer: {
     backgroundColor: '#83764F',
@@ -280,7 +200,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     color: '#F3EEEA',
   },
-
+  
   input: {
     height: 40,
     borderColor: '#ccc',
@@ -293,22 +213,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: {
-    backgroundColor: '#F3EEEA',
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: '#83764F',
-    textAlign: 'center',
-    fontSize: 16,
-  },
-  errorText: {
-    color: "#ff0000ea",
-    fontSize: 16,
-  },
-
-
-
+  
+  
 });

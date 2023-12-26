@@ -11,7 +11,7 @@ const Dashboard = () => {
   const [tableNumber, setTableNumber] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [errorTable, setErrorTable] = useState('');
-  const [showRejectionInput, setShowRejectionInput] = useState(false);
+  const [rejectionMessage, setRejectionMessage] = useState('');
   const [reason, setReason] = useState('');
   const [isBooking, setIsBooking] = useState(true);
 
@@ -64,7 +64,7 @@ const Dashboard = () => {
         setSelectedOrder(null);
         setTableNumber('');
         setIsBooking(true);
-        setIsModalVisible(false);
+        setIsModalVisible(false); 
       } catch (error) {
         console.error('Error updating order status:', error);
       }
@@ -72,7 +72,7 @@ const Dashboard = () => {
   };
 
   const handleRejectOrder = async () => {
-
+   
     if (selectedOrder) {
       const orderRef = doc(db, 'Orders', selectedOrder.id);
 
@@ -89,7 +89,6 @@ const Dashboard = () => {
         setReason('');
         setIsBooking(false);
         setIsModalVisible(false);
-        setShowRejectionInput(false);
       } catch (error) {
         console.error('Error updating order status:', error);
       }
@@ -127,63 +126,44 @@ const Dashboard = () => {
           <Text style={styles.selectedOrderTitle}>Selected Order:</Text>
           <Text style={styles.selectedOrderInfo}>{selectedOrder?.fullName}</Text>
           <Text style={styles.selectedOrderInfo}>Table Number:</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (!showRejectionInput) {
-                setShowRejectionInput(true);
-              } else {
-                handleRejectOrder();
-                setShowRejectionInput(false);
-              }
-            }}
-          >
-            <Text style={styles.buttonText}>
-              {showRejectionInput ? 'Confirm' : 'Reject Booking'}
-            </Text>
-          </TouchableOpacity>
+          
+          {isBooking && (
+            <TextInput
+              style={styles.input}
+              value={tableNumber}
+              onChangeText={(text) => setTableNumber(text.replace(/[^0-9]/g, ''))}
+              keyboardType="numeric"
+              placeholder="Enter Table Number"
+            />
+          )}
 
-          {showRejectionInput && (
-            <View>
-              <Text style={styles.selectedOrderInfo}>Rejection Message:</Text>
+          {!isBooking && (
+            <>
+              <Text style={styles.selectedOrderInfo}>Reason for Rejection:</Text>
               <TextInput
                 style={styles.input}
                 value={reason}
                 onChangeText={(text) => setReason(text)}
-                placeholder="Enter Rejection Message"
+                placeholder="Enter Reason for Rejection"
               />
-            </View>
-          )}
-
-          {!showRejectionInput && (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleBookOrder()}
-              >
-                <Text style={styles.buttonText}>Book Booking</Text>
-              </TouchableOpacity>
-
-              <Text style={styles.selectedOrderInfo}>Table Number:</Text>
-              <TextInput
-                style={styles.input}
-                value={tableNumber}
-                onChangeText={(text) => setTableNumber(text.replace(/[^0-9]/g, ''))}
-                keyboardType="numeric"
-                placeholder="Enter Table Number"
-              />
-              {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
             </>
           )}
+
+          {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => (isBooking ? handleBookOrder() : handleRejectOrder())}
+          >
+            <Text style={styles.buttonText}>{isBooking ? 'Book Order' : 'Reject Order'}</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => setIsModalVisible(false)}
           >
             <Text style={styles.buttonText}>Close</Text>
           </TouchableOpacity>
-
-
-
         </View>
       </Modal>
     </ScrollView>
@@ -194,7 +174,6 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     backgroundColor: '#83764F',
 
@@ -303,7 +282,7 @@ const styles = StyleSheet.create({
     color: '#83764F',
     textAlign: 'center',
     fontSize: 16,
-  },
+  }, 
   errorText: {
     color: "#ff0000ea",
     fontSize: 16,

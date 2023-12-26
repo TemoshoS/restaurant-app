@@ -64,7 +64,7 @@ const Dashboard = () => {
         setSelectedOrder(null);
         setTableNumber('');
         setIsBooking(true);
-        setIsModalVisible(false);
+        setIsModalVisible(false); 
       } catch (error) {
         console.error('Error updating order status:', error);
       }
@@ -72,7 +72,7 @@ const Dashboard = () => {
   };
 
   const handleRejectOrder = async () => {
-
+   
     if (selectedOrder) {
       const orderRef = doc(db, 'Orders', selectedOrder.id);
 
@@ -89,7 +89,6 @@ const Dashboard = () => {
         setReason('');
         setIsBooking(false);
         setIsModalVisible(false);
-        setShowRejectionInput(false);
       } catch (error) {
         console.error('Error updating order status:', error);
       }
@@ -127,54 +126,31 @@ const Dashboard = () => {
           <Text style={styles.selectedOrderTitle}>Selected Order:</Text>
           <Text style={styles.selectedOrderInfo}>{selectedOrder?.fullName}</Text>
           <Text style={styles.selectedOrderInfo}>Table Number:</Text>
+          <TextInput
+            style={styles.input}
+            value={tableNumber}
+            onChangeText={(text) => setTableNumber(text.replace(/[^0-9]/g, ''))}
+            keyboardType="numeric"
+            placeholder="Enter Table Number"
+          />
+          {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
+
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              if (!showRejectionInput) {
-                setShowRejectionInput(true);
-              } else {
-                handleRejectOrder();
-                setShowRejectionInput(false);
-              }
-            }}
+            onPress={() => handleBookOrder()}
           >
-            <Text style={styles.buttonText}>
-              {showRejectionInput ? 'Confirm' : 'Reject Booking'}
-            </Text>
+            <Text style={styles.buttonText}>Book Order</Text>
           </TouchableOpacity>
 
-          {showRejectionInput && (
-            <View>
-              <Text style={styles.selectedOrderInfo}>Rejection Message:</Text>
-              <TextInput
-                style={styles.input}
-                value={reason}
-                onChangeText={(text) => setReason(text)}
-                placeholder="Enter Rejection Message"
-              />
-            </View>
-          )}
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleRejectOrder()}
+          >
+            <Text style={styles.buttonText}>Reject Order</Text>
+          </TouchableOpacity>
+          
 
-          {!showRejectionInput && (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleBookOrder()}
-              >
-                <Text style={styles.buttonText}>Book Booking</Text>
-              </TouchableOpacity>
 
-              <Text style={styles.selectedOrderInfo}>Table Number:</Text>
-              <TextInput
-                style={styles.input}
-                value={tableNumber}
-                onChangeText={(text) => setTableNumber(text.replace(/[^0-9]/g, ''))}
-                keyboardType="numeric"
-                placeholder="Enter Table Number"
-              />
-              {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
-            </>
-          )}
           <TouchableOpacity
             style={styles.button}
             onPress={() => setIsModalVisible(false)}
@@ -194,7 +170,6 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     backgroundColor: '#83764F',
 
@@ -303,7 +278,7 @@ const styles = StyleSheet.create({
     color: '#83764F',
     textAlign: 'center',
     fontSize: 16,
-  },
+  }, 
   errorText: {
     color: "#ff0000ea",
     fontSize: 16,
