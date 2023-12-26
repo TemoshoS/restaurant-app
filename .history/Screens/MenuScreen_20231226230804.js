@@ -395,11 +395,13 @@ const MenuScreen = ({ route }) => {
             <TouchableOpacity style={styles.modalButton} onPress={handleUpdateMenuItem}>
               <Text style={styles.modalButtonText}>Update Menu Item</Text>
             </TouchableOpacity>
-           
+            <TouchableOpacity style={styles.modalButton} onPress={toggleUpdateModal}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.closeButton}
-              onPress={toggleUpdateModal}
+              onPress={() => setUpdateModalVisible(false)}
             >
               <Icon name="times" size={30} color="#fff" />
             </TouchableOpacity>

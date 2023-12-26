@@ -183,7 +183,7 @@ const Dashboard = () => {
             style={styles.closeButton}
             onPress={() => setIsModalVisible(false)}
           >
-            <Icon name="times" size={30} color="#fff" />
+            <Icon name="times" size={20} color="#83764F" />
           </TouchableOpacity>
 
 
@@ -295,7 +295,6 @@ const styles = StyleSheet.create({
     color: '#F3EEEA',
   },
   modal: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -316,8 +315,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: 10,
+    right: 10,
     padding: 10,
   },
 

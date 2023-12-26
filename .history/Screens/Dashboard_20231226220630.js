@@ -3,7 +3,6 @@ import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity } from 
 import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../config/firebase';
 import Modal from 'react-native-modal';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const Dashboard = () => {
@@ -127,8 +126,8 @@ const Dashboard = () => {
         <View style={styles.selectedOrderContainer}>
           <Text style={styles.selectedOrderTitle}>Selected Order:</Text>
           <Text style={styles.selectedOrderInfo}>{selectedOrder?.fullName}</Text>
-
-
+          <Text style={styles.selectedOrderInfo}>Table Number:</Text>
+          
           {!showRejectionInput && (
             <>
 
@@ -141,29 +140,8 @@ const Dashboard = () => {
                 placeholder="Enter Table Number"
               />
               {errorTable && <Text style={styles.errorText}>{errorTable}</Text>}
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => handleBookOrder()}
-              >
-                <Text style={styles.buttonText}>Book Booking</Text>
-              </TouchableOpacity>
             </>
           )}
-
-
-          {showRejectionInput && (
-            <View>
-              <Text style={styles.selectedOrderInfo}>Rejection Message:</Text>
-              <TextInput
-                style={styles.input}
-                value={reason}
-                onChangeText={(text) => setReason(text)}
-                placeholder="Enter Rejection Message"
-              />
-            </View>
-          )}
-
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
@@ -179,11 +157,25 @@ const Dashboard = () => {
               {showRejectionInput ? 'Confirm' : 'Reject Booking'}
             </Text>
           </TouchableOpacity>
+
+          {showRejectionInput && (
+            <View>
+              <Text style={styles.selectedOrderInfo}>Rejection Message:</Text>
+              <TextInput
+                style={styles.input}
+                value={reason}
+                onChangeText={(text) => setReason(text)}
+                placeholder="Enter Rejection Message"
+              />
+            </View>
+          )}
+
+          
           <TouchableOpacity
-            style={styles.closeButton}
+            style={styles.button}
             onPress={() => setIsModalVisible(false)}
           >
-            <Icon name="times" size={30} color="#fff" />
+            <Text style={styles.buttonText}>Close</Text>
           </TouchableOpacity>
 
 
@@ -207,7 +199,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: '#F3EEEA',
   },
   orderList: {
     marginBottom: 16,
@@ -295,7 +286,6 @@ const styles = StyleSheet.create({
     color: '#F3EEEA',
   },
   modal: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -313,12 +303,6 @@ const styles = StyleSheet.create({
   errorText: {
     color: "#ff0000ea",
     fontSize: 16,
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    padding: 10,
   },
 
 

@@ -260,14 +260,11 @@ const MenuScreen = ({ route }) => {
             <TouchableOpacity style={styles.modalButton} onPress={handleAddMenuItem}>
               <Text style={styles.modalButtonText}>Add Menu Item</Text>
             </TouchableOpacity>
-
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleCreateModal}
-            >
-              <Icon name="times" size={30} color="#fff" />
+            <TouchableOpacity style={styles.modalButton} onPress={toggleCreateModal}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
+
+            onPress={() => setUpdateModalVisible(false)}
           </View>
         </View>
       </Modal>
@@ -395,13 +392,8 @@ const MenuScreen = ({ route }) => {
             <TouchableOpacity style={styles.modalButton} onPress={handleUpdateMenuItem}>
               <Text style={styles.modalButtonText}>Update Menu Item</Text>
             </TouchableOpacity>
-           
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleUpdateModal}
-            >
-              <Icon name="times" size={30} color="#fff" />
+            <TouchableOpacity style={styles.modalButton} onPress={toggleUpdateModal}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>

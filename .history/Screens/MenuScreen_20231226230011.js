@@ -20,7 +20,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 const MenuScreen = ({ route }) => {
   const { restId, restImage, restName, restLocation } = route.params;
@@ -260,13 +259,8 @@ const MenuScreen = ({ route }) => {
             <TouchableOpacity style={styles.modalButton} onPress={handleAddMenuItem}>
               <Text style={styles.modalButtonText}>Add Menu Item</Text>
             </TouchableOpacity>
-
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleCreateModal}
-            >
-              <Icon name="times" size={30} color="#fff" />
+            <TouchableOpacity style={styles.modalButton} onPress={toggleCreateModal}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -395,13 +389,8 @@ const MenuScreen = ({ route }) => {
             <TouchableOpacity style={styles.modalButton} onPress={handleUpdateMenuItem}>
               <Text style={styles.modalButtonText}>Update Menu Item</Text>
             </TouchableOpacity>
-           
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleUpdateModal}
-            >
-              <Icon name="times" size={30} color="#fff" />
+            <TouchableOpacity style={styles.modalButton} onPress={toggleUpdateModal}>
+              <Text style={styles.modalButtonText}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
