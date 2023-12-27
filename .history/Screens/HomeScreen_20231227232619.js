@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 30
     },
     getTxt:{
-        color: '#fff',
+        color: '#83764F',
         fontSize: 20,
         fontWeight:'bold'
     }

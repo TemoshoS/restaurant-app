@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         height: 932,
         justifyContent: 'center',
         alignItems:'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#83764F',
     },
     circle:{
         marginLeft: 370,
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         fontSize: 64,
         fontFamily: 'italiana',
         marginTop: 100,
-        color: 'gray',
+        color: '#ccc',
 
     },
     dineTxt:{
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ccc',
-        width: 250,
-        height: 60,
+        width: 304,
+        height: 78,
         borderRadius: 30
     },
     getTxt:{
-        color: '#fff',
-        fontSize: 20,
+        color: '#83764F',
+        fontSize: 24,
         fontWeight:'bold'
     }
 })

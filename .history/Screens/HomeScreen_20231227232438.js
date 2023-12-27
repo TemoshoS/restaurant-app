@@ -84,27 +84,27 @@ const styles = StyleSheet.create({
         fontSize: 64,
         fontFamily: 'italiana',
         marginTop: 100,
-        color: 'gray',
+        color: '#ccc',
 
     },
     dineTxt:{
         fontSize: 20,
         fontFamily: 'Nothing You Could Do',
         marginBottom: 150,
-        color: '#ccc',
+        color: '#fff',
 
     },
     getButton:{
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#ccc',
-        width: 250,
-        height: 60,
+        width: 304,
+        height: 78,
         borderRadius: 30
     },
     getTxt:{
-        color: '#fff',
-        fontSize: 20,
+        color: '#83764F',
+        fontSize: 24,
         fontWeight:'bold'
     }
 })

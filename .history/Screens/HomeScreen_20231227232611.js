@@ -103,8 +103,8 @@ const styles = StyleSheet.create({
         borderRadius: 30
     },
     getTxt:{
-        color: '#fff',
-        fontSize: 20,
+        color: '#83764F',
+        fontSize: 24,
         fontWeight:'bold'
     }
 })
