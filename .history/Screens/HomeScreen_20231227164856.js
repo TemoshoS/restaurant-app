@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         height: 932,
         justifyContent: 'center',
         alignItems:'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#83764F',
     },
     circle:{
         marginLeft: 370,

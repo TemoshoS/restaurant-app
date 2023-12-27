@@ -4,7 +4,8 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -138,7 +139,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent',
-    position: 'relative',
   },
   backgroundImage: {
     flex: 1,
@@ -157,11 +157,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     borderWidth: 1,
     borderColor: '#ccc',
-
   },
   card: {
     width: '80%',
-    minHeight: '50vh',
+    minHeight: '50%',
     padding: 20,
     borderRadius: 3,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -174,22 +173,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
-    marginLeft: -50,
-    marginTop: -200,
-    position: 'absolute'
-
-  },
   profileImage: {
     width: '100%',
-    height: 150,
+    aspectRatio: 1, // Maintain aspect ratio
     borderRadius: 75,
     borderWidth: 4,
     borderColor: '#ccc',
-    aspectRatio: 1,
   },
   profileInfo: {
-    marginLeft: 20,
+    marginTop: 20,
   },
   profileName: {
     fontSize: 20,
@@ -197,17 +189,7 @@ const styles = StyleSheet.create({
   },
   profileEmail: {
     fontSize: 16,
-    color: '#ccc',
-  },
-  profileBio: {
-    fontSize: 14,
-    color: '#5A5A5A',
-    marginTop: 5,
-  },
-  editProfileButton: {
-    color: 'gray',
-    fontSize: 16,
-    marginVertical: 10,
+    color: '#555',
   },
   profileBtns: {
     backgroundColor: '#ccc',
@@ -220,32 +202,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
-  },
-  badgesCard: {
-    flexDirection: 'row',
-    padding: 10,
-    borderRadius: 3,
-    backgroundColor: '#00bcd4',
-    color: '#fff',
-    width: 280,
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 3,
-    position: 'absolute',
-    bottom: 10,
-  },
-  badgeIcon: {
-    fontSize: 16,
-    margin: 0,
-    opacity: 0.6,
-    marginRight: 6,
-  },
-  logoutText: {
-    color: 'gray',
-    fontSize: 16,
-    marginVertical: 5,
   },
 });
 

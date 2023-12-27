@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity,ImageBackground, StyleSheet, Image, ActivityIndicator, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image , ActivityIndicator} from 'react-native';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -17,7 +18,6 @@ const ProfileScreen = () => {
   const userId = user ? user.uid : null;
   const isAdmin = user ? user.email === 'temosho@admin.co' : false;
   const [image, setImage] = useState(null);
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -27,14 +27,12 @@ const ProfileScreen = () => {
       }
     });
 
-
-
     return () => unsubscribe();
   }, []);
 
   const onLogout = () => {
     setLoading(true);
-
+  
     signOut(auth)
       .then(() => {
         setLoading(false);
@@ -45,7 +43,7 @@ const ProfileScreen = () => {
         console.error('Logout error:', error);
       });
   };
-
+  
 
   const navigateToPastReservations = () => {
     navigation.navigate('reservation');
@@ -87,14 +85,13 @@ const ProfileScreen = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
     <View style={styles.container}>
-      {/* <View style={styles.circleContainer}>
-        <AntDesign style={styles.circle} name="caretright" size={400} color="#ccc" />
-      </View> */}
       <View style={styles.card}>
-
-        <View style={styles.imageContainer}>
+      <View >
+      <AntDesign style={styles.circle} name="caretright" size={400} color="#ccc" />
+              
+          </View>
+      <View style={styles.imageContainer}>
           <Image
             source={{ uri: image || 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
             style={styles.profileImage}
@@ -105,30 +102,29 @@ const ProfileScreen = () => {
         </View>
         <View style={styles.profileInfo}>
           <Text style={styles.profileName}>{currentUser ? currentUser : 'Guest'}</Text>
-          {user && <Text style={styles.profileEmail}> {user.email}</Text>}
+          {user && <Text style={styles.profileEmail}>Email: {user.email}</Text>}
         </View>
 
-        <TouchableOpacity style={styles.profileBtns} onPress={navigateToEditProfile}>
-          <Text style={styles.buttonText}>Update Profile</Text>
+        <TouchableOpacity onPress={navigateToEditProfile}>
+          <Text style={styles.editProfileButton}>Edit Profile</Text>
         </TouchableOpacity>
 
         {loading && <ActivityIndicator size="small" color="#0000ff" />}
 
         {isAdmin ? (
-          <TouchableOpacity style={styles.profileBtns} onPress={adminOrders}>
-            <Text style={styles.buttonText}>Dashboard</Text>
+          <TouchableOpacity onPress={adminOrders}>
+            <Text style={styles.logoutText}>Dashboard</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.profileBtns} onPress={navigateToPastReservations}>
-            <Text style={styles.buttonText}>View Reservations</Text>
+          <TouchableOpacity onPress={navigateToPastReservations}>
+            <Text style={styles.logoutText}>View Reservations</Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity style={styles.profileBtns} onPress={onLogout} disabled={loading}>
-          <Text style={styles.buttonText}>Logout</Text>
+        <TouchableOpacity onPress={onLogout} disabled={loading}>
+          <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </View>
     </View>
-    </ImageBackground>
   );
 };
 
@@ -137,18 +133,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    position: 'relative',
+    
   },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+  imageContainer:{
+    position: 'relative',  
   },
-  imageContainer: {
-    position: 'relative',
-  },
-  cameraIconContainer: {
+  cameraIconContainer:{
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -156,7 +146,7 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: 'black',
 
   },
   card: {
@@ -164,7 +154,7 @@ const styles = StyleSheet.create({
     minHeight: '50vh',
     padding: 20,
     borderRadius: 3,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -174,19 +164,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
-    marginLeft: -50,
-    marginTop: -200,
-    position: 'absolute'
-
-  },
+  circle:{
+    marginLeft: -235,
+    marginTop: 10,
+    position:'absolute'
+  
+},
   profileImage: {
-    width: '100%',
+    width: 150,
     height: 150,
     borderRadius: 75,
-    borderWidth: 4,
-    borderColor: '#ccc',
-    aspectRatio: 1,
   },
   profileInfo: {
     marginLeft: 20,
@@ -197,7 +184,6 @@ const styles = StyleSheet.create({
   },
   profileEmail: {
     fontSize: 16,
-    color: '#ccc',
   },
   profileBio: {
     fontSize: 14,
@@ -205,21 +191,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   editProfileButton: {
-    color: 'gray',
+    color: 'blue',
     fontSize: 16,
+    textDecorationLine: 'underline',
     marginVertical: 10,
-  },
-  profileBtns: {
-    backgroundColor: '#ccc',
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 10,
-    width: '100%',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
   },
   badgesCard: {
     flexDirection: 'row',
@@ -243,8 +218,9 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   logoutText: {
-    color: 'gray',
+    color: 'blue',
     fontSize: 16,
+    textDecorationLine: 'underline',
     marginVertical: 5,
   },
 });

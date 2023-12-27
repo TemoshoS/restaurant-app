@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity,ImageBackground, StyleSheet, Image, ActivityIndicator, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, StyleSheet, Image, ActivityIndicator, Animated } from 'react-native';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { Dimensions } from 'react-native';
 
 
 
 const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get('window').height;
   const navigation = useNavigation();
   const auth = getAuth();
   const user = auth.currentUser;
@@ -88,46 +90,46 @@ const ProfileScreen = () => {
 
   return (
     <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
-    <View style={styles.container}>
-      {/* <View style={styles.circleContainer}>
+      <View style={styles.container}>
+        {/* <View style={styles.circleContainer}>
         <AntDesign style={styles.circle} name="caretright" size={400} color="#ccc" />
       </View> */}
-      <View style={styles.card}>
+        <View style={styles.card}>
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: image || 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
-            style={styles.profileImage}
-          />
-          <TouchableOpacity style={styles.cameraIconContainer} onPress={pickImage}>
-            <Entypo name="camera" size={24} color="black" />
+          <View style={styles.imageContainer}>
+            <Image
+              source={{ uri: image || 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity style={styles.cameraIconContainer} onPress={pickImage}>
+              <Entypo name="camera" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileName}>{currentUser ? currentUser : 'Guest'}</Text>
+            {user && <Text style={styles.profileEmail}> {user.email}</Text>}
+          </View>
+
+          <TouchableOpacity style={styles.profileBtns} onPress={navigateToEditProfile}>
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </TouchableOpacity>
+
+          {loading && <ActivityIndicator size="small" color="#0000ff" />}
+
+          {isAdmin ? (
+            <TouchableOpacity style={styles.profileBtns} onPress={adminOrders}>
+              <Text style={styles.buttonText}>Dashboard</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.profileBtns} onPress={navigateToPastReservations}>
+              <Text style={styles.buttonText}>View Reservations</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity style={styles.profileBtns} onPress={onLogout} disabled={loading}>
+            <Text style={styles.buttonText}>Logout</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{currentUser ? currentUser : 'Guest'}</Text>
-          {user && <Text style={styles.profileEmail}> {user.email}</Text>}
-        </View>
-
-        <TouchableOpacity style={styles.profileBtns} onPress={navigateToEditProfile}>
-          <Text style={styles.buttonText}>Update Profile</Text>
-        </TouchableOpacity>
-
-        {loading && <ActivityIndicator size="small" color="#0000ff" />}
-
-        {isAdmin ? (
-          <TouchableOpacity style={styles.profileBtns} onPress={adminOrders}>
-            <Text style={styles.buttonText}>Dashboard</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.profileBtns} onPress={navigateToPastReservations}>
-            <Text style={styles.buttonText}>View Reservations</Text>
-          </TouchableOpacity>
-        )}
-        <TouchableOpacity style={styles.profileBtns} onPress={onLogout} disabled={loading}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>
       </View>
-    </View>
     </ImageBackground>
   );
 };
@@ -144,6 +146,8 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+    width: windowWidth,
+    height: windowHeight,
   },
   imageContainer: {
     position: 'relative',
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '80%',
-    minHeight: '50vh',
+    minHeight: windowHeight * 0.5, 
     padding: 20,
     borderRadius: 3,
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -181,8 +185,8 @@ const styles = StyleSheet.create({
 
   },
   profileImage: {
-    width: '100%',
-    height: 150,
+    width: windowWidth * 0.5,
+    height: windowWidth * 0.5,
     borderRadius: 75,
     borderWidth: 4,
     borderColor: '#ccc',

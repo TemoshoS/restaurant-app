@@ -4,7 +4,8 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     minHeight: '50vh',
     padding: 20,
     borderRadius: 3,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -181,12 +182,11 @@ const styles = StyleSheet.create({
 
   },
   profileImage: {
-    width: '100%',
+    width: 150,
     height: 150,
     borderRadius: 75,
     borderWidth: 4,
     borderColor: '#ccc',
-    aspectRatio: 1,
   },
   profileInfo: {
     marginLeft: 20,

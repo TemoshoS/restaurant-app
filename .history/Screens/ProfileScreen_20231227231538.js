@@ -4,13 +4,15 @@ import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { Dimensions } from 'react-native';
 
 
 
 const ProfileScreen = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
   const navigation = useNavigation();
   const auth = getAuth();
   const user = auth.currentUser;

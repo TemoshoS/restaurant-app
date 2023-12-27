@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity,ImageBackground, StyleSheet, Image, ActivityIndicator, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image , ActivityIndicator, Animated } from 'react-native';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import { Entypo } from '@expo/vector-icons';
-
+import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -27,14 +28,14 @@ const ProfileScreen = () => {
       }
     });
 
-
+   
 
     return () => unsubscribe();
   }, []);
 
   const onLogout = () => {
     setLoading(true);
-
+  
     signOut(auth)
       .then(() => {
         setLoading(false);
@@ -45,7 +46,7 @@ const ProfileScreen = () => {
         console.error('Logout error:', error);
       });
   };
-
+  
 
   const navigateToPastReservations = () => {
     navigation.navigate('reservation');
@@ -87,14 +88,14 @@ const ProfileScreen = () => {
   };
 
   return (
-    <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
-    <View style={styles.container}>
-      {/* <View style={styles.circleContainer}>
-        <AntDesign style={styles.circle} name="caretright" size={400} color="#ccc" />
-      </View> */}
+    <View style={[styles.container, { opacity }]}>
+       <View >
+      <AntDesign style={styles.circle} name="caretright" size={400} color="#ccc" />
+              
+          </View>
       <View style={styles.card}>
-
-        <View style={styles.imageContainer}>
+     
+      <View style={styles.imageContainer}>
           <Image
             source={{ uri: image || 'https://bootdey.com/img/Content/avatar/avatar6.png' }}
             style={styles.profileImage}
@@ -108,8 +109,8 @@ const ProfileScreen = () => {
           {user && <Text style={styles.profileEmail}> {user.email}</Text>}
         </View>
 
-        <TouchableOpacity style={styles.profileBtns} onPress={navigateToEditProfile}>
-          <Text style={styles.buttonText}>Update Profile</Text>
+        <TouchableOpacity onPress={navigateToEditProfile}>
+          <Text style={styles.editProfileButton}>Edit Profile</Text>
         </TouchableOpacity>
 
         {loading && <ActivityIndicator size="small" color="#0000ff" />}
@@ -127,8 +128,7 @@ const ProfileScreen = () => {
           <Text style={styles.buttonText}>Logout</Text>
         </TouchableOpacity>
       </View>
-    </View>
-    </ImageBackground>
+      </Animated.View>
   );
 };
 
@@ -137,18 +137,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    position: 'relative',
+    backgroundColor: 'white'
   },
-  backgroundImage: {
-    flex: 1,
-    resizeMode: 'cover',
-    justifyContent: 'center',
+  imageContainer:{
+    position: 'relative',  
   },
-  imageContainer: {
-    position: 'relative',
-  },
-  cameraIconContainer: {
+  cameraIconContainer:{
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -164,7 +158,7 @@ const styles = StyleSheet.create({
     minHeight: '50vh',
     padding: 20,
     borderRadius: 3,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    backgroundColor: 'white',
     shadowColor: 'black',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -174,19 +168,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  circle: {
+  circle:{
     marginLeft: -50,
     marginTop: -200,
-    position: 'absolute'
-
-  },
+    position:'absolute'
+  
+},
   profileImage: {
-    width: '100%',
+    width: 150,
     height: 150,
     borderRadius: 75,
     borderWidth: 4,
     borderColor: '#ccc',
-    aspectRatio: 1,
   },
   profileInfo: {
     marginLeft: 20,
@@ -210,7 +203,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   profileBtns: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#3498db',
     padding: 10,
     borderRadius: 5,
     marginVertical: 10,
@@ -218,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
   },
   badgesCard: {
