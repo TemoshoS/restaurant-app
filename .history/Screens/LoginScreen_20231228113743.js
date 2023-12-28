@@ -57,10 +57,13 @@ const LoginScreen = () => {
   };
 
 
+  const toggleSignUp = () => {
+
+  };
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+      <Icon name="user" size={80} color="#ccc" style={styles.userIcon} />
 
       <View style={styles.passwordContainer}>
         <TextInput
@@ -96,12 +99,12 @@ const LoginScreen = () => {
 
 
       <View style={styles.newAccount}>
-        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity style={styles.createBtn} onPress={() => navigation.navigate('Register')}>
           <Text style={styles.createTxt}>Create Account</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate('login')}>
-          <Text style={styles.forgotTxt}>Forgot Password?</Text>
+        <TouchableOpacity style={styles.forgotBtn} onPress={() => navigation.navigate('login')}>
+          <Text style={styles.forgotTxt}>Forgot Password</Text>
         </TouchableOpacity>
       </View>
 
@@ -120,17 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   userIcon: {
-    width: 90,
-    height: 90,
-    marginBottom: 90,
-    borderWidth: 2,
-    borderRadius: 45,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
+    marginBottom: 50
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -144,7 +137,7 @@ const styles = StyleSheet.create({
   input: {
     width: '100%',
     marginBottom: 10,
-    padding: 12,
+    padding: 15,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 25,
@@ -156,10 +149,9 @@ const styles = StyleSheet.create({
   loginBtn: {
     backgroundColor: '#ccc',
     padding: 10,
-    borderRadius: 25,
+    borderRadius: 5,
     marginTop: 20,
-    width: '80%',
-    marginBottom: 50,
+    width: '50%'
   },
   loginTxt: {
     color: 'white',
@@ -169,30 +161,38 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#ccc'
   },
-  createTxt: {
-    marginRight: 85,
-    color: 'gray',
-    fontFamily: 'Single Day',
+  toggleBtn: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
   },
-
+  toggleTxt: {
+    color: 'white',
+    textAlign: 'center',
+  },
+  toggleText: {
+    marginTop: 10,
+  },
+  toggleLink: {
+    color: 'blue',
+  },
   forgotBtn: {
     marginTop: 10,
   },
   forgotTxt: {
-    color: '#72A0C1',
-    // textDecorationLine: 'underline',
+    color: 'blue',
+    textDecorationLine: 'underline',
     fontSize: 16,
-    
   },
   showPasswordButton: {
     position: 'absolute',
     right: 20,
 
   },
-  newAccount: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    
+  newAccount:{
+    flexDirection: 'row';
+    justifyContent: 'space-between'
   }
 
 });

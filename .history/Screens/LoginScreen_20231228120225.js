@@ -101,7 +101,7 @@ const LoginScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('login')}>
-          <Text style={styles.forgotTxt}>Forgot Password?</Text>
+          <Text style={styles.forgotTxt}>Forgot Password</Text>
         </TouchableOpacity>
       </View>
 
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc'
   },
   createTxt: {
-    marginRight: 85,
+    marginRight: 90,
     color: 'gray',
     fontFamily: 'Single Day',
   },

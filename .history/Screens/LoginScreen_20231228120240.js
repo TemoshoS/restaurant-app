@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc'
   },
   createTxt: {
-    marginRight: 85,
+    marginRight: 90,
     color: 'gray',
     fontFamily: 'Single Day',
   },
