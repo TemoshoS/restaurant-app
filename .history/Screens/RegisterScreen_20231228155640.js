@@ -87,7 +87,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+      <Text style={styles.title}>Register Screen</Text>
       <View style={styles.passwordContainer}>
       <TextInput
         style={styles.input}
@@ -154,18 +154,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  userIcon: {
-    width: 90,
-    height: 90,
-    marginBottom: 90,
-    borderWidth: 2,
-    borderRadius: 45,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -208,15 +199,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   forgotTxt: {
-    color: '#72A0C1',
-   fontWeight: 'bold',
+    color: 'blue',
+    textDecorationLine: 'underline',
     fontSize: 16,
   },
   sameRow:{
     flexDirection: 'row',
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems:'center'
+    justifyContent: ''
   },
   createTxT:{
     marginRight: 5,

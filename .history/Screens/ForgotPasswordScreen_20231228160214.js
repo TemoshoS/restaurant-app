@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotPassword } from '../actions/authActions';
 
@@ -17,21 +17,20 @@ const ForgotPasswordScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Reset your Password</Text>
+      <Text style={styles.title}>Forgot Password</Text>
       <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
       </View>
-
-
-      <TouchableOpacity style={styles.resetBtn} onPress={handleResetPassword}>
-        <Text style={styles.resetTxt}>Reset Password</Text>
-      </TouchableOpacity>
-
+      <Button
+        title="Reset Password"
+        onPress={handleResetPassword}
+        disabled={forgotPasswordLoading}
+      />
       {forgotPasswordLoading && <Text style={styles.infoText}>Sending reset email...</Text>}
       {forgotPasswordSuccess && <Text style={styles.successText}>Reset email sent. Check your inbox.</Text>}
       {forgotPasswordError && <Text style={styles.errorText}>Error: {forgotPasswordError.message}</Text>}
@@ -51,8 +50,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: isSmallDevice ? 20 : 24,
-    marginBottom: 90,
-    color: 'gray',
+    marginBottom: isSmallDevice ? 10 : 20,
   },
   input: {
     width: '100%',
@@ -70,18 +68,6 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: 'blue',
-  },
-  resetBtn: {
-    backgroundColor: '#ccc',
-    padding: 10,
-    borderRadius: 25,
-    marginTop: 20,
-    width: '80%',
-    marginBottom: 50,
-  },
-  resetTxt: {
-    color: 'white',
-    textAlign: 'center',
   },
   successText: {
     color: 'green',

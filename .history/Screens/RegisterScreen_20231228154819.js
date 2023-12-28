@@ -87,7 +87,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+      <Text style={styles.title}>Register Screen</Text>
       <View style={styles.passwordContainer}>
       <TextInput
         style={styles.input}
@@ -134,11 +134,11 @@ const RegisterScreen = () => {
       </View>
 
     
-      <TouchableOpacity style={styles.registerBtn} onPress={handleRegister}>
-        <Text style={styles.registerTxt}>Register</Text>
+      <TouchableOpacity style={styles.loginBtn} onPress={handleRegister}>
+        <Text style={styles.loginTxt}>Login</Text>
       </TouchableOpacity>
 
-      <View style={styles.sameRow}><Text style={styles.createTxT}>Already have an account? </Text>
+      <View style={styles.sameRow}><Text>Already have an account? </Text>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.forgotTxt}>Login</Text>
       </TouchableOpacity>
@@ -154,18 +154,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
-  userIcon: {
-    width: 90,
-    height: 90,
-    marginBottom: 90,
-    borderWidth: 2,
-    borderRadius: 45,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   passwordContainer: {
     flexDirection: 'row',
@@ -195,7 +186,7 @@ const styles = StyleSheet.create({
     right: 20,
 
   },
-  registerBtn: {
+  loginBtn: {
     backgroundColor: '#ccc',
     padding: 10,
     borderRadius: 25,
@@ -203,26 +194,19 @@ const styles = StyleSheet.create({
     width: '80%',
     marginBottom: 50,
   },
-  registerTxt: {
+  loginTxt: {
     color: 'white',
     textAlign: 'center',
   },
   forgotTxt: {
-    color: '#72A0C1',
-   fontWeight: 'bold',
+    color: 'blue',
+    textDecorationLine: 'underline',
     fontSize: 16,
   },
   sameRow:{
     flexDirection: 'row',
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems:'center'
-  },
-  createTxT:{
-    marginRight: 5,
-    color: 'gray',
-    fontFamily: 'Single Day',
-  },
+  }
 });
 
 export default RegisterScreen;

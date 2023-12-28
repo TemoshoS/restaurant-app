@@ -60,7 +60,19 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+       userIcon: {
+    width: 90,
+    height: 90,
+    marginBottom: 90,
+    borderWidth: 2,
+    borderRadius: 45,
+    borderColor: '#ccc',
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
 
       <View style={styles.passwordContainer}>
         <TextInput

@@ -167,6 +167,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
   passwordContainer: {
     flexDirection: 'row',
     alignItems: 'center',

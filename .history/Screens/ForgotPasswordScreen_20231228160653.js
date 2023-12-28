@@ -17,18 +17,18 @@ const ForgotPasswordScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Reset your Password</Text>
+      <Text style={styles.title}>Forgot Password</Text>
       <View style={styles.passwordContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter your email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
+      <TextInput
+        style={styles.input}
+        placeholder="Enter your email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
       </View>
+      
 
-
-      <TouchableOpacity style={styles.resetBtn} onPress={handleResetPassword}>
+<TouchableOpacity style={styles.resetBtn} onPress={handleResetPassword}>
         <Text style={styles.resetTxt}>Reset Password</Text>
       </TouchableOpacity>
 
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: isSmallDevice ? 20 : 24,
-    marginBottom: 90,
-    color: 'gray',
+    marginBottom: isSmallDevice ? 10 : 20,
   },
   input: {
     width: '100%',

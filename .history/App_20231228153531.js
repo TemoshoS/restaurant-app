@@ -41,7 +41,7 @@ export default function App() {
 
   function MainStack() {
     return (
-      <Stack.Navigator initialRouteName='Welcome'>
+      <Stack.Navigator initialRouteName='Register'>
         <Stack.Screen name="Restaurants" component={RestaurantScreen} options={{ headerShown: false }} />
         <Stack.Screen name='Welcome' component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name='editProfile' component={EditProfileScreen} options={{ headerShown: true }} />

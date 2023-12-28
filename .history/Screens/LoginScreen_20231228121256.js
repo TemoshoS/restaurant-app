@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
     color: '#ccc',
   },
   errorText: {
-    color: '#e41c38',
+    color: '#e41c38
+    ',
   },
   loginBtn: {
     backgroundColor: '#ccc',

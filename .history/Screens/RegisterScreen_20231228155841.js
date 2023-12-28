@@ -87,7 +87,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+      <Text style={styles.title}>Register Screen</Text>
       <View style={styles.passwordContainer}>
       <TextInput
         style={styles.input}
@@ -166,6 +166,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   passwordContainer: {
     flexDirection: 'row',

@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: isSmallDevice ? 20 : 24,
-    marginBottom: 90,
-    color: 'gray',
+    marginBottom: isSmallDevice ? 10 : 20,
   },
   input: {
     width: '100%',

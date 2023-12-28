@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { registerSuccess } from '../actions/authActions';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 const RegisterScreen = () => {
@@ -87,44 +86,34 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
-      <View style={styles.passwordContainer}>
+      <Text style={styles.title}>Register Screen</Text>
       <TextInput
         style={styles.input}
         placeholder="Name"
         onChangeText={(text) => setName(text)}
       />
-      </View>
       {namerr && <Text style={styles.errorText}>{namerr}</Text>}
-      <View style={styles.passwordContainer}>
       <TextInput
         style={styles.input}
         placeholder="Email"
         onChangeText={(text) => setEmail(text)}
       />
-      </View>
       {emailError && <Text style={styles.errorText}>{emailError}</Text>}
-      <View style={styles.passwordContainer}>
+
       <TextInput
         style={styles.input}
         placeholder="Password"
         onChangeText={(text) => setPassword(text)}
         secureTextEntry={!showPassword}
       />
-      <TouchableOpacity style={styles.showPasswordButton} onPress={toggleShowPassword}>
-      <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#ccc" />
-      </TouchableOpacity>
-
-</View>
       {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
-      <View style={styles.passwordContainer}>
+
       <TextInput
         style={styles.input}
         placeholder="Re-enter Password"
         onChangeText={(text) => setReenterPassword(text)}
         secureTextEntry={!showPassword}
       />
-      </View>
       {reenterPasswordError && <Text style={styles.errorText}>{reenterPasswordError}</Text>}
 
       {userExistsMessage && <Text style={styles.successMessage}>{userExistsMessage}</Text>}
@@ -133,12 +122,13 @@ const RegisterScreen = () => {
         {passwordStrength && <Text>Password Strength: {passwordStrength}</Text>}
       </View>
 
-    
-      <TouchableOpacity style={styles.registerBtn} onPress={handleRegister}>
-        <Text style={styles.registerTxt}>Register</Text>
+      <TouchableOpacity style={styles.showPasswordButton} onPress={toggleShowPassword}>
+        <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
       </TouchableOpacity>
 
-      <View style={styles.sameRow}><Text style={styles.createTxT}>Already have an account? </Text>
+      <Button title="Register" onPress={handleRegister} />
+
+      <View style={styles.sameRow}><Text>Already have an account? </Text>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.forgotTxt}>Login</Text>
       </TouchableOpacity>
@@ -152,34 +142,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white'
   },
-  userIcon: {
-    width: 90,
-    height: 90,
-    marginBottom: 90,
-    borderWidth: 2,
-    borderRadius: 45,
-    borderColor: '#ccc',
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '80%',
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
-    width: '100%',
+    width: '80%',
     marginBottom: 10,
-    padding: 12,
-    borderColor: '#ccc',
+    padding: 8,
+    borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 25,
-    color: '#ccc',
+    borderRadius: 5,
   },
   errorText: {
     color: 'red',
@@ -191,38 +165,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   showPasswordButton: {
-    position: 'absolute',
-    right: 20,
-
-  },
-  registerBtn: {
-    backgroundColor: '#ccc',
-    padding: 10,
-    borderRadius: 25,
-    marginTop: 20,
-    width: '80%',
-    marginBottom: 50,
-  },
-  registerTxt: {
-    color: 'white',
-    textAlign: 'center',
+    marginTop: 10,
   },
   forgotTxt: {
-    color: '#72A0C1',
-   fontWeight: 'bold',
+    color: 'blue',
+    textDecorationLine: 'underline',
     fontSize: 16,
   },
   sameRow:{
     flexDirection: 'row',
     marginTop: 10,
-    justifyContent: 'center',
-    alignItems:'center'
-  },
-  createTxT:{
-    marginRight: 5,
-    color: 'gray',
-    fontFamily: 'Single Day',
-  },
+  }
 });
 
 export default RegisterScreen;
