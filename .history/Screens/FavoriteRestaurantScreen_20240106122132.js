@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: 'gray',
     textAlign: 'center',
     marginVertical: 10,
   },
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'black',
+    color: '#ccc',
   },
   restaurantRating: {
     fontSize: 16,

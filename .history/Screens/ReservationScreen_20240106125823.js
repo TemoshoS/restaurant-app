@@ -128,7 +128,6 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
       setConfirmationVisible(true); 
 
       
@@ -160,7 +159,7 @@ const handleReservation = () => {
 
       const notificationId = await Notifications.scheduleNotificationAsync({
         content: {
-          title: "Restaurant",
+          title: "Salema",
           body: "Alert has been sent to your contacts",
         },
         trigger: null,

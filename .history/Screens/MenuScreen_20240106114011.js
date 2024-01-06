@@ -224,7 +224,7 @@ const MenuScreen = ({ route }) => {
         <FontAwesome name="arrow-left" size={25} color="white" />
         </TouchableOpacity>
         {!isAdmin && (
-        <TouchableOpacity style={styles.makeBookingBtn} onPress={()=>navigationItemDetails()}>
+        <TouchableOpacity style={styles.makeBookingBtn} on>
           <Text style={styles.makeBookingTxt}>Make booking</Text>
         </TouchableOpacity>
         )}

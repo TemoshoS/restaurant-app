@@ -7,6 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Notifications from "expo-notifications";
+import { sendEmailVerification } from 'firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+
 
 
 const ReservationScreen = ({ route }) => {
@@ -128,7 +131,9 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
+      sendEmailConfirmation(user); 
+      sendPushNotification();
+      // sendNotification();
       setConfirmationVisible(true); 
 
       
@@ -154,6 +159,17 @@ const handleReservation = () => {
     setConfirmationVisible(false);
   };
 
+  const sendEmailConfirmation = (user) => {
+    sendEmailVerification(user)
+      .then(() => {
+        console.log('Email verification sent');
+      })
+      .catch((error) => {
+        console.error('Error sending email verification:', error);
+      });
+  };
+
+
   const sendNotification = async () => {
     try {
       const { status } = await Notifications.getPermissionsAsync();
@@ -171,6 +187,38 @@ const handleReservation = () => {
       console.error("Error sending notification: ", error);
     }
   };
+
+  const sendPushNotification = async () => {
+    try {
+      const fcmToken = await messaging().getToken();
+  
+      const message = {
+        notification: {
+          title: 'Reservation Confirmation',
+          body: 'Thank you for making a reservation. Your reservation is confirmed!',
+        },
+        android: {
+          notification: {
+            sound: 'default',
+          },
+        },
+        token: fcmToken,
+      };
+  
+      messaging().sendMessage(message);
+    } catch (error) {
+      console.error('Error sending push notification:', error);
+    }
+  };
+  
+  // Handle incoming notifications (put this where your app initializes)
+  messaging().onMessage(async (remoteMessage) => {
+    console.log('Received FCM Notification:', remoteMessage);
+  });
+  
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log('Received background FCM Notification:', remoteMessage);
+  });
  
   return (
     <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>

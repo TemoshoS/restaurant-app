@@ -5,8 +5,7 @@ import { reserveTable } from '../actions/reserveAction';
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { FontAwesome } from '@expo/vector-icons';
-import * as Notifications from "expo-notifications";
+
 
 
 const ReservationScreen = ({ route }) => {
@@ -29,7 +28,7 @@ const ReservationScreen = ({ route }) => {
   const [phoneError, setPhoneError] = useState('');
   const [dateTimeError, setDateTimeError] = useState('');
   const [numOfGuests, setNumOfGuests] = useState(1);
-  const {goBack}= useNavigation();
+
   const dispatch = useDispatch();
 
   // Function to show the date picker
@@ -128,7 +127,6 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
       setConfirmationVisible(true); 
 
       
@@ -154,30 +152,11 @@ const handleReservation = () => {
     setConfirmationVisible(false);
   };
 
-  const sendNotification = async () => {
-    try {
-      const { status } = await Notifications.getPermissionsAsync();
-
-      const notificationId = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Restaurant",
-          body: "Alert has been sent to your contacts",
-        },
-        trigger: null,
-      });
-
-      console.log("Notification scheduled: ", notificationId);
-    } catch (error) {
-      console.error("Error sending notification: ", error);
-    }
-  };
  
   return (
     <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
     <ScrollView contentContainerStyle={styles.container}>
-    <TouchableOpacity style={styles.goBackBtn} onPress={() => goBack()}>
-        <FontAwesome name="arrow-left" size={25} color="white" />
-        </TouchableOpacity>
+
 
       {/* <ImageBackground source={{ uri: restImage }} style={styles.restaurantImage}>
         <View style={styles.overlay}>
@@ -341,18 +320,6 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
-  goBackBtn:{
-    position: 'absolute',
-    top: 20,
-    left: '5%',
-    marginLeft: -1,
-    backgroundColor: '#ccc',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: 'center',
-   alignItems: 'center',
-   },
   card: {
     width: '80%',
     minHeight: '40vh',
@@ -367,7 +334,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 100
+    marginTop: 15
   },
   restaurantImage: {
     width: '100%',

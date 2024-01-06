@@ -7,6 +7,9 @@ import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Notifications from "expo-notifications";
+import { sendEmailVerification } from 'firebase/auth';
+import messaging from '@react-native-firebase/messaging';
+
 
 
 const ReservationScreen = ({ route }) => {
@@ -128,7 +131,8 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
+      sendEmailConfirmation(user); 
+      // sendNotification();
       setConfirmationVisible(true); 
 
       
@@ -153,6 +157,17 @@ const handleReservation = () => {
   const hideConfimation = () => {
     setConfirmationVisible(false);
   };
+
+  const sendEmailConfirmation = (user) => {
+    sendEmailVerification(user)
+      .then(() => {
+        console.log('Email verification sent');
+      })
+      .catch((error) => {
+        console.error('Error sending email verification:', error);
+      });
+  };
+
 
   const sendNotification = async () => {
     try {

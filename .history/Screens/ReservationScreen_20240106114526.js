@@ -6,7 +6,6 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker'
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons';
-import * as Notifications from "expo-notifications";
 
 
 const ReservationScreen = ({ route }) => {
@@ -128,7 +127,6 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
       setConfirmationVisible(true); 
 
       
@@ -154,23 +152,6 @@ const handleReservation = () => {
     setConfirmationVisible(false);
   };
 
-  const sendNotification = async () => {
-    try {
-      const { status } = await Notifications.getPermissionsAsync();
-
-      const notificationId = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Restaurant",
-          body: "Alert has been sent to your contacts",
-        },
-        trigger: null,
-      });
-
-      console.log("Notification scheduled: ", notificationId);
-    } catch (error) {
-      console.error("Error sending notification: ", error);
-    }
-  };
  
   return (
     <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
@@ -367,7 +348,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 100
+    marginTop: 15
   },
   restaurantImage: {
     width: '100%',

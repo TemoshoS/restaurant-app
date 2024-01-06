@@ -128,7 +128,6 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
       setConfirmationVisible(true); 
 
       

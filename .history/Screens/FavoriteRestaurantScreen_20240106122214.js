@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: ''black',
     textAlign: 'center',
     marginVertical: 10,
   },

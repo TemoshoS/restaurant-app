@@ -68,12 +68,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#F3EEEA',
     textAlign: 'center',
     marginVertical: 10,
   },
   restaurantCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F3EEEA',
     padding: 16,
     margin: 16,
     borderRadius: 10,
@@ -93,11 +93,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'black',
+    color: '#83764F',
   },
   restaurantRating: {
     fontSize: 16,
-    color: 'green',
+    color: '#888',
     fontFamily: 'Rubik Doodle Shadow'
   },
   emptyMessage: {

@@ -128,7 +128,6 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
       setConfirmationVisible(true); 
 
       
@@ -154,23 +153,6 @@ const handleReservation = () => {
     setConfirmationVisible(false);
   };
 
-  const sendNotification = async () => {
-    try {
-      const { status } = await Notifications.getPermissionsAsync();
-
-      const notificationId = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Restaurant",
-          body: "Alert has been sent to your contacts",
-        },
-        trigger: null,
-      });
-
-      console.log("Notification scheduled: ", notificationId);
-    } catch (error) {
-      console.error("Error sending notification: ", error);
-    }
-  };
  
   return (
     <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>

@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Notifications from "expo-notifications";
+import { getAuth, onAuthStateChanged, sendEmailVerification } from 'firebase/auth';
+
 
 
 const ReservationScreen = ({ route }) => {
@@ -128,7 +130,7 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
+      sendNotification();
       setConfirmationVisible(true); 
 
       

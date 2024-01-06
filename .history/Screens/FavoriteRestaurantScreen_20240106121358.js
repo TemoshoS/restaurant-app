@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { fetchFavouriteRestaurants } from '../actions/favoriteRestaurantActions';
-import { StyleSheet, Text, View, Image, ScrollView,ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 const FavoriteRestaurantScreen = ({ favRestaurants, fetchFavouriteRestaurants }) => {
@@ -27,8 +27,8 @@ const FavoriteRestaurantScreen = ({ favRestaurants, fetchFavouriteRestaurants })
     .sort((a, b) => b.ratings - a.ratings);
 
   return (
-    <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}></ImageBackground>
+    <ScrollView style={styles.container}>
       <Text style={styles.header}>My Favorite Restaurants</Text>
       {filteredRestaurants.length === 0 ? (
         <Text style={styles.emptyMessage}>No favorite restaurants to display.</Text>
@@ -42,7 +42,6 @@ const FavoriteRestaurantScreen = ({ favRestaurants, fetchFavouriteRestaurants })
         ))
       )}
     </ScrollView>
-    </ImageBackground>
   );
 };
 
@@ -68,12 +67,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#F3EEEA',
     textAlign: 'center',
     marginVertical: 10,
   },
   restaurantCard: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F3EEEA',
     padding: 16,
     margin: 16,
     borderRadius: 10,
@@ -93,11 +92,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: 'black',
+    color: '#83764F',
   },
   restaurantRating: {
     fontSize: 16,
-    color: 'green',
+    color: '#888',
     fontFamily: 'Rubik Doodle Shadow'
   },
   emptyMessage: {

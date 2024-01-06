@@ -9,6 +9,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import * as Notifications from "expo-notifications";
 
 
+
 const ReservationScreen = ({ route }) => {
   
   const { restImage, restName, restLocation } = route.params;
@@ -128,7 +129,7 @@ const handleReservation = () => {
         status: 'pending',
       };
       dispatch(reserveTable(reservationData));
-      sendNotification()
+      sendNotification();
       setConfirmationVisible(true); 
 
       
