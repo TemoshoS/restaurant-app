@@ -215,13 +215,13 @@ const MenuScreen = ({ route }) => {
 
 
   return (
-    // <ImageBackground source={require('../assets/food.jpg')} style={styles.backgroundImage}>
+    
     <ScrollView contentContainerStyle={styles.container}>
     
     <View>
     <Image source={{ uri: restImage }} style={styles.restaurantImage} />
     <TouchableOpacity style={styles.goBackBtn} onPress={() => goBack()}>
-        <FontAwesome name="arrow-left" size={25} color="white" />
+        <FontAwesome name="arrow-left" size={20} color="#fff" />
         </TouchableOpacity>
         {!isAdmin && (
         <TouchableOpacity style={styles.makeBookingBtn} onPress={()=>navigationItemDetails()}>
@@ -234,6 +234,9 @@ const MenuScreen = ({ route }) => {
         
       
         <View style={styles.detailsCard}>
+        <View >
+        <FontAwesome style={styles.circle} name="circle" size={500} color="#FFD700" />
+      </View>
         <View style={styles.categoryFilter}>
         <TouchableOpacity
           style={styles.categoryButton}
@@ -274,36 +277,33 @@ const MenuScreen = ({ route }) => {
         keyExtractor={(menu) => menu.id}
         numColumns={numColumns}
         renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => navigationItemDetails(item)}
-            style={{ width: cardWidth, padding: 10 }}
-          >
-            <View style={styles.menuItem}>
-              <Image source={{ uri: item.menuImage }} style={styles.ImageMenu} />
-              <Text style={styles.menuName} numberOfLines={1}>
-                {item.menuName}
-              </Text>
-              <Text style={styles.menuPrice}>R{item.menuPrice}</Text>
+          <View
+  style={{ width: cardWidth, padding: 10 }}
+>
+  <View style={styles.menuItem}>
+    <Image source={{ uri: item.menuImage }} style={styles.ImageMenu} />
+    <Text style={styles.menuName} numberOfLines={1}>
+      {item.menuName}
+    </Text>
+    <Text style={styles.menuPrice}>R{item.menuPrice}</Text>
 
-              {isAdmin && (
-                <View style={styles.adminButtonsContainer}>
-                  <TouchableOpacity
+    {isAdmin && (
+      <View style={styles.adminButtonsContainer}>
+        <TouchableOpacity
+          onPress={() => handleUpdate(item.id)}
+        >
+          <Ionicons name="create" size={25} color="#6082B6" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleDelete(item.id)}
+        >
+          <Ionicons name="trash" size={25} color="#FF003F" />
+        </TouchableOpacity>
+      </View>
+    )}
+  </View>
+</View>
 
-                    onPress={() => handleUpdate(item.id)}
-                  >
-                    <Ionicons name="create" size={25} color="#6082B6" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-
-                    onPress={() => handleDelete(item.id)}
-                  >
-                    <Ionicons name="trash" size={25} color="#FF003F" />
-                  </TouchableOpacity>
-
-                </View>
-              )}
-            </View>
-          </TouchableOpacity>
         )}
       />
         {isAdmin && (
@@ -451,10 +451,10 @@ const styles = StyleSheet.create({
     top: 20,
     left: '5%',
     marginLeft: -1,
-    backgroundColor: '#ccc',
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    backgroundColor: '#FFD700',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     justifyContent: 'center',
    alignItems: 'center',
    },
@@ -463,23 +463,33 @@ const styles = StyleSheet.create({
     top: 100,
     left: '50%',
     marginLeft: -50,
-    backgroundColor: 'yellow',
+    backgroundColor: '#FFD700',
+    padding: 10,
+    borderRadius: 5,
    },
    makeBookingTxt:{
     fontSize: 20,
-    color: 'red',
+    color: '#fff',
     fontWeight: 'bold',
    },
    
    detailsCard: {
     width: '100%',
     backgroundColor: '#fff',
-    top: -50,
+    top: -60,
     borderTopLeftRadius: 35,
     borderTopRightRadius :35,
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
+  circle: {
+    position: 'absolute',
+    top: 30,
+    left: -400,
+    zIndex: -1,
+  },
+
   overlay: {
     flex: 1,
     justifyContent: 'center',

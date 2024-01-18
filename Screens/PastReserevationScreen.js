@@ -48,7 +48,7 @@ const PastReservationScreen = ({ pastReservations, fetchPastReservations }) => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>My Orders</Text>
+      <Text style={styles.title}>Bookings</Text>
     <View style={styles.filterButtonsContainer}>
       <TouchableOpacity
         style={styles.filterButton}
@@ -95,29 +95,16 @@ const PastReservationScreen = ({ pastReservations, fetchPastReservations }) => {
               style={styles.tableRow}
               textStyle={styles.info}
             />
-            <Row
-              data={['Full Name:', reservation.fullName]}
-              style={styles.tableRow}
-              textStyle={styles.info}
-            />
-            <Row
-              data={['Phone Number:', reservation.phone]}
-              style={styles.tableRow}
-              textStyle={styles.info}
-            />
+            
             <Row
               data={['Occasion:', reservation.occasion]}
               style={styles.tableRow}
               textStyle={styles.info}
             />
-            <Row
-              data={['Number of Guests:', reservation.numOfGuests]}
-              style={styles.tableRow}
-              textStyle={styles.info}
-            />
+           
             <Row
               data={['Status:', reservation.status]}
-              style={[styles.tableRow, { backgroundColor: getStatusColor(reservation.status) }]}
+              style={styles.tableRow}
               textStyle={styles.info}
             />
             {reservation.status === 'rejected' && (
@@ -149,7 +136,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
   },
   filterButtonsContainer: {
     flexDirection: 'row',
@@ -163,7 +150,7 @@ const styles = StyleSheet.create({
   },
   filterButtonText: {
     fontWeight: 'bold',
-    color: '#83764F',
+    color: '#000',
   },
   tableContainer: {
     marginTop: 16,
@@ -172,10 +159,10 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: 'gray',
+    color: 'black',
   },
   reservationCard: {
-    backgroundColor: '#F3EEEA',
+    backgroundColor: '#fff',
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,

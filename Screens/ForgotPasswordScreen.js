@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { forgotPassword } from '../actions/authActions';
+import Modal from 'react-native-modal';
 
 const ForgotPasswordScreen = () => {
   const dispatch = useDispatch();
   const forgotPasswordLoading = useSelector((state) => state.auth.forgotPasswordLoading);
   const forgotPasswordSuccess = useSelector((state) => state.auth.forgotPasswordSuccess);
   const forgotPasswordError = useSelector((state) => state.auth.forgotPasswordError);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState('');
 
   const handleResetPassword = () => {
+    
+    setIsModalVisible(true);
+
     dispatch(forgotPassword(email));
+
+    
+      setIsModalVisible(false);
+    
   };
 
   return (
@@ -31,6 +39,12 @@ const ForgotPasswordScreen = () => {
       <TouchableOpacity style={styles.resetBtn} onPress={handleResetPassword}>
         <Text style={styles.resetTxt}>Reset Password</Text>
       </TouchableOpacity>
+
+      <Modal isVisible={isModalVisible}>
+        <View style={styles.modalContainer}>
+          <ActivityIndicator size="large" color="#FFD700" />
+        </View>
+      </Modal>
 
       {forgotPasswordLoading && <Text style={styles.infoText}>Sending reset email...</Text>}
       {forgotPasswordSuccess && <Text style={styles.successText}>Reset email sent. Check your inbox.</Text>}
@@ -88,6 +102,12 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
+  },
+  modalContainer: {
+    borderRadius: 10,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

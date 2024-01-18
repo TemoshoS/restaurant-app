@@ -43,7 +43,6 @@ const Navbar = () => {
         </Text>
         </View>
         <View style={styles.userRow}>
-          <Icon name="user" size={20} color="#ccc" /> 
           <Text style={styles.userText}>{currentUser}</Text>
         </View>
       </View>
@@ -53,13 +52,12 @@ const Navbar = () => {
 
 const styles = StyleSheet.create({
   container: {
+
     
-    backgroundColor: '#fff',
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 40,
-    borderBottomWidth: 1,
-    borderColor: '#ccc'
+    
   },
   user: {
     flexDirection: 'row',
@@ -67,9 +65,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   greetingText: {
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: '#ccc',
+    color: 'black',
     fontFamily: 'Roboto Slab',
   },
   userRow: {
@@ -80,9 +78,9 @@ const styles = StyleSheet.create({
   },
   userText: {
     
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#ccc',
+    color: 'black',
   },
 });
 

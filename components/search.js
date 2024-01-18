@@ -6,13 +6,14 @@ const Search = ({ onSearch }) => {
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Ionicons name="search" size={22} color="#fff" style={styles.searchIcon} />
+        
         <TextInput
           style={styles.searchInput}
           placeholder="Search"
-          placeholderTextColor="#fff"
+          placeholderTextColor="black"
           onChangeText={(text) => onSearch(text)}
         />
+        <Ionicons name="search" size={22} color="#000" style={styles.searchIcon} />
       </View>
     </View>
   );
@@ -26,10 +27,13 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ccc',
+    backgroundColor: '#fff',
     paddingVertical: 5,
     paddingHorizontal: 12,
-    borderRadius: 25,
+    borderRadius: 5,
+    width: '80%',
+    borderWidth:1,
+    borderColor: '#ccc',
     
   },
   searchIcon: {
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: '#fff',
+    color: 'black',
     
   },
 });

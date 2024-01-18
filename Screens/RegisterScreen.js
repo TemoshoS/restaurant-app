@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { registerSuccess } from '../actions/authActions';
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { FontAwesome } from '@expo/vector-icons';
+import Modal from 'react-native-modal';
 
 const RegisterScreen = () => {
 
@@ -22,7 +23,7 @@ const RegisterScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const handleRegister = async () => {
     // Reset previous validation errors and user exists message
     setNamerr(null);
@@ -53,13 +54,17 @@ const RegisterScreen = () => {
     }
 
     try {
+
+      
+      setIsModalVisible(true);
+
       const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
       await updateProfile(user, {
         displayName: name,
-        
+
       });
 
       dispatch(registerSuccess(user));
@@ -78,6 +83,8 @@ const RegisterScreen = () => {
       if (error.code === 'auth/email-already-in-use') {
         setUserExistsMessage('User with this email already exists.');
       }
+    }finally{
+      setIsModalVisible(false);
     }
   };
 
@@ -87,43 +94,46 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View >
+        <FontAwesome style={styles.circle} name="circle" size={700} color="#FFD700" />
+      </View>
       <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
       <View style={styles.passwordContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        onChangeText={(text) => setName(text)}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          onChangeText={(text) => setName(text)}
+        />
       </View>
       {namerr && <Text style={styles.errorText}>{namerr}</Text>}
       <View style={styles.passwordContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        onChangeText={(text) => setEmail(text)}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)}
+        />
       </View>
       {emailError && <Text style={styles.errorText}>{emailError}</Text>}
       <View style={styles.passwordContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={(text) => setPassword(text)}
-        secureTextEntry={!showPassword}
-      />
-      <TouchableOpacity style={styles.showPasswordButton} onPress={toggleShowPassword}>
-      <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#ccc" />
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={(text) => setPassword(text)}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity style={styles.showPasswordButton} onPress={toggleShowPassword}>
+          <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="#ccc" />
+        </TouchableOpacity>
 
-</View>
+      </View>
       {passwordError && <Text style={styles.errorText}>{passwordError}</Text>}
       <View style={styles.passwordContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="Re-enter Password"
-        onChangeText={(text) => setReenterPassword(text)}
-        secureTextEntry={!showPassword}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Re-enter Password"
+          onChangeText={(text) => setReenterPassword(text)}
+          secureTextEntry={!showPassword}
+        />
       </View>
       {reenterPasswordError && <Text style={styles.errorText}>{reenterPasswordError}</Text>}
 
@@ -133,15 +143,21 @@ const RegisterScreen = () => {
         {passwordStrength && <Text>Password Strength: {passwordStrength}</Text>}
       </View>
 
-    
+
       <TouchableOpacity style={styles.registerBtn} onPress={handleRegister}>
         <Text style={styles.registerTxt}>Register</Text>
       </TouchableOpacity>
 
+      <Modal isVisible={isModalVisible}>
+        <View style={styles.modalContainer}>
+          <ActivityIndicator size="large" color="#FFD700" />
+        </View>
+      </Modal>
+
       <View style={styles.sameRow}><Text style={styles.createTxT}>Already have an account? </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.forgotTxt}>Login</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.forgotTxt}>Login</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -153,6 +169,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white'
+  },
+  circle: {
+    position: 'absolute',
+    top: -650,
+    left: -150,
+    zIndex: -1,
   },
   userIcon: {
     width: 90,
@@ -171,6 +193,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '80%',
+  },
+  modalContainer: {
+    borderRadius: 10,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   input: {
     width: '100%',
@@ -196,7 +224,7 @@ const styles = StyleSheet.create({
 
   },
   registerBtn: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
     padding: 10,
     borderRadius: 25,
     marginTop: 20,
@@ -209,16 +237,16 @@ const styles = StyleSheet.create({
   },
   forgotTxt: {
     color: '#72A0C1',
-   fontWeight: 'bold',
+    fontWeight: 'bold',
     fontSize: 16,
   },
-  sameRow:{
+  sameRow: {
     flexDirection: 'row',
     marginTop: 10,
     justifyContent: 'center',
-    alignItems:'center'
+    alignItems: 'center'
   },
-  createTxT:{
+  createTxT: {
     marginRight: 5,
     color: 'gray',
     fontFamily: 'Single Day',

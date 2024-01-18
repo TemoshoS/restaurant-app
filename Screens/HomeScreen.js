@@ -31,7 +31,7 @@ const HomeScreen = () => {
       <View style={styles.container}>
 
           <View >
-              <FontAwesome style={styles.circle} name="circle" size={140} color="#D9D9D9" />
+              <FontAwesome style={styles.circle} name="circle" size={700} color="#FFD700" />
           </View>
 
           <Image
@@ -67,44 +67,47 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-       
-        height: 932,
+    container: {
+        flex: 1,
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         backgroundColor: '#fff',
     },
-    circle:{
-        marginLeft: 370,
-        marginTop: -160,
-      
+    circle: {
+        position: 'absolute',
+        top: -300, 
+        left: -300, 
+        zIndex: -1,
     },
-    welcomeTxt:{
+    contentContainer: {
+        alignItems: 'center',
+        paddingHorizontal: 20, 
+    },
+    welcomeTxt: {
         fontSize: 64,
         fontFamily: 'italiana',
         marginTop: 100,
-        color: 'gray',
-
+        color: '#FFD700',
     },
-    dineTxt:{
+    dineTxt: {
         fontSize: 20,
         fontFamily: 'Nothing You Could Do',
         marginBottom: 150,
         color: '#ccc',
-
     },
-    getButton:{
+    getButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ccc',
+        backgroundColor: '#FFD700',
         width: 250,
         height: 60,
-        borderRadius: 30
+        borderRadius: 30,
+       
+        
     },
-    getTxt:{
+    getTxt: {
         color: '#fff',
         fontSize: 20,
-        fontWeight:'bold'
-    }
-})
+        fontWeight: 'bold',
+    },
+});
