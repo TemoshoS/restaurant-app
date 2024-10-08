@@ -50,7 +50,7 @@ const RestaurantDetailsScreen = ({ route }) => {
        <View>
         <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
 
-        
+        <Animated.View style={{ opacity: buttonOpacity }}>
   <TouchableOpacity
     style={styles.imageButton}
     onPress={() => navigate('Menu', { restId: restaurant.id, restImage: restaurant.restImage, restName: restaurant.restName, restLocation: restaurant.restLocation })}

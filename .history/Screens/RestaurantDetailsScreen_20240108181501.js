@@ -50,7 +50,7 @@ const RestaurantDetailsScreen = ({ route }) => {
        <View>
         <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
 
-        
+        <Animated.View style={{ opacity: buttonOpacity }}>
   <TouchableOpacity
     style={styles.imageButton}
     onPress={() => navigate('Menu', { restId: restaurant.id, restImage: restaurant.restImage, restName: restaurant.restName, restLocation: restaurant.restLocation })}
@@ -59,7 +59,7 @@ const RestaurantDetailsScreen = ({ route }) => {
   >
     <Text style={styles.imageButtonText}>View Menu</Text>
   </TouchableOpacity>
-
+</Animated.View>
 
         <TouchableOpacity style={styles.goBackBtn} onPress={() => goBack()}>
         <FontAwesome name="arrow-left" size={25} color="white" />

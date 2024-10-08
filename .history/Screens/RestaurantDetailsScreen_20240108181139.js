@@ -50,16 +50,15 @@ const RestaurantDetailsScreen = ({ route }) => {
        <View>
         <Image source={{ uri: restaurant.restImage }} style={styles.restaurantImage} />
 
-        
-  <TouchableOpacity
-    style={styles.imageButton}
-    onPress={() => navigate('Menu', { restId: restaurant.id, restImage: restaurant.restImage, restName: restaurant.restName, restLocation: restaurant.restLocation })}
-    onPressIn={handleButtonPress}
-    onPressOut={handleButtonRelease}
-  >
-    <Text style={styles.imageButtonText}>View Menu</Text>
-  </TouchableOpacity>
-
+        <TouchableHighlight
+          style={[styles.imageButton, { opacity: buttonOpacity }]}
+          onPress={() => navigate('Menu', { restId: restaurant.id, restImage: restaurant.restImage, restName: restaurant.restName, restLocation: restaurant.restLocation })}
+          onPressIn={handleButtonPress}
+          onPressOut={handleButtonRelease}
+          underlayColor="blue" 
+        >
+          <Text style={styles.imageButtonText}>View Menu</Text>
+        </TouchableHighlight>
 
         <TouchableOpacity style={styles.goBackBtn} onPress={() => goBack()}>
         <FontAwesome name="arrow-left" size={25} color="white" />
@@ -211,7 +210,7 @@ const styles = StyleSheet.create({
     color: 'black',
     marginLeft: 5,
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 16',
   },
   likes: {
     flexDirection: 'row',
