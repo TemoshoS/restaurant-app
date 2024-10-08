@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../actions/authActions';
-import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome } from '@expo/vector-icons';
+import Modal from 'react-native-modal';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +16,7 @@ const LoginScreen = () => {
   const [loginError, setLoginError] = useState(null);
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -31,6 +33,8 @@ const LoginScreen = () => {
     }
 
     try {
+      setIsModalVisible(true);
+
       const auth = getAuth();
       await signInWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
@@ -51,16 +55,21 @@ const LoginScreen = () => {
       else {
         setLoginError('Please enter valid email and password');
       }
+    }finally{
+      setIsModalVisible(false);
     }
 
-    console.log('handleLogin function called');
   };
 
 
 
   return (
     <View style={styles.container}>
-      <Icon name="user" size={60} color="#ccc" style={styles.userIcon} />
+
+<View >
+              <FontAwesome style={styles.circle} name="circle" size={700} color="#FFD700" />
+          </View>
+      <Icon name="user" size={40} color="#ccc" style={styles.userIcon} />
 
       <View style={styles.passwordContainer}>
         <TextInput
@@ -93,7 +102,11 @@ const LoginScreen = () => {
         <Text style={styles.loginTxt}>Login</Text>
       </TouchableOpacity>
 
-
+      <Modal isVisible={isModalVisible}>
+        <View style={styles.modalContainer}>
+          <ActivityIndicator size="large" color="#FFD700" />
+        </View>
+      </Modal>
 
       <View style={styles.newAccount}>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
@@ -119,6 +132,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white'
   },
+  circle: {
+    position: 'absolute',
+    top: -650, 
+    left: -150, 
+    zIndex: -1,
+},
   userIcon: {
     width: 90,
     height: 90,
@@ -154,7 +173,7 @@ const styles = StyleSheet.create({
     color: '#e41c38',
   },
   loginBtn: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
     padding: 10,
     borderRadius: 25,
     marginTop: 20,
@@ -168,6 +187,12 @@ const styles = StyleSheet.create({
   createBtn: {
     borderWidth: 2,
     borderColor: '#ccc'
+  },
+  modalContainer: {
+    borderRadius: 10,
+    padding: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   createTxt: {
     marginRight: 85,

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: 'black',
+    color: '#FFD700',
     textAlign: 'center',
     marginVertical: 10,
   },
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   restaurantName: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 5,
     color: 'black',
   },
   restaurantRating: {
-    fontSize: 16,
-    color: 'green',
+    fontSize: 18,
+    color: '#FFD700',
     fontFamily: 'Rubik Doodle Shadow'
   },
   emptyMessage: {

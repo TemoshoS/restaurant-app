@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
       color: '#ccc',
     },
     resetBtn: {
-      backgroundColor: '#ccc',
+      backgroundColor: '#FFD700',
       padding: 10,
       borderRadius: 25,
       marginTop: 20,

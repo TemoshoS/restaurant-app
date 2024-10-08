@@ -205,12 +205,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   editProfileButton: {
-    color: 'gray',
+    color: '#FFD700',
     fontSize: 16,
     marginVertical: 10,
   },
   profileBtns: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
     padding: 10,
     borderRadius: 5,
     marginVertical: 10,

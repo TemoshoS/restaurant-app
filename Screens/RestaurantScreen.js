@@ -29,6 +29,7 @@ import Modal from 'react-native-modal';
 import * as ImagePicker from 'expo-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Dimensions } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
 const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
@@ -243,6 +244,9 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View >
+        <FontAwesome style={styles.circle} name="circle" size={700} color="#FFD700" />
+      </View>
       <Navbar />
       <Search onSearch={handleSearch} />
       <FlatList
@@ -258,7 +262,10 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
             </TouchableOpacity>
             <View style={styles.restaurantInfo}>
               <Text style={styles.restaurantName}>{item.restName}</Text>
+
+             
               <Text style={styles.restaurantLocation}>{item.restLocation}</Text>
+              
               <View style={styles.ratingsContainer}>
               <Text style={styles.restaurantRatings}>{item.ratings}</Text>
 
@@ -304,7 +311,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
             </View>
             {!isAdmin && (
               <TouchableOpacity style={styles.heartButton} onPress={() => handleLike(item.id)}>
-                <Ionicons name="heart" size={28} color="#ccc" />
+                <Ionicons name="heart" size={28} color="#FF6347" />
               </TouchableOpacity>
             )}
             {/* Buttons for Update and Delete */}
@@ -467,16 +474,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
-
+  circle: {
+    position: 'absolute',
+    top: -300,
+    left: -300,
+    zIndex: -1,
+  },
   flatListContent: {
     alignItems: 'center',
     justifyContent: 'center',
     
   },
+  location:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   restaurantItem: {
-    width: Dimensions.get('window').width * 0.8,
+    width: Dimensions.get('window').width - 50, 
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
@@ -494,15 +510,17 @@ const styles = StyleSheet.create({
     transition: 'background-color 0.3s ease',
   },
   restaurantImage: {
-    width: 150,
-    height: 150,
+    width: 100, 
+    height: 80, 
     borderRadius: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
+  
+  
   restaurantInfo: {
     flex: 1,
-    marginLeft: 10,
-    marginLeft: 40,
+    marginLeft: 30,
+    
   },
   restaurantName: {
     fontSize: 18,
@@ -553,7 +571,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     width: '80%',
-    backgroundColor: '#83764F',
+    backgroundColor: '#FFD700',
     padding: 20,
     borderRadius: 10,
     elevation: 5,
@@ -567,7 +585,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#F3EEEA',
+    color: '#fff',
   },
   input: {
     height: 40,
@@ -575,7 +593,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
-    color: '#F3EEEA',
+    color: '#fff',
   },
   modalButton: {
     backgroundColor: '#F3EEEA',

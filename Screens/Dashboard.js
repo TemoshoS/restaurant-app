@@ -198,16 +198,15 @@ export default Dashboard;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFD700',
 
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
-    color: 'gray',
+    color: 'black',
   },
   orderList: {
     marginBottom: 16,
@@ -231,7 +230,7 @@ const styles = StyleSheet.create({
   orderInfo: {
     fontSize: 16,
     marginBottom: 8,
-    color: 'gray',
+    color: 'black',
     fontWeight: 'bold',
     fontFamily: ''
   },
@@ -252,7 +251,7 @@ const styles = StyleSheet.create({
 
   },
   selectBtn: {
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
     borderRadius: 5,
     padding: 5,
     width: 100,
@@ -265,7 +264,7 @@ const styles = StyleSheet.create({
 
   },
   selectedOrderContainer: {
-    backgroundColor: '#83764F',
+    backgroundColor: '#FFD700',
     borderRadius: 8,
     padding: 16,
     shadowColor: '#000',

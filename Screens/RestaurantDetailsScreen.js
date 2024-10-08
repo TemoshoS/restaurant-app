@@ -62,7 +62,7 @@ const RestaurantDetailsScreen = ({ route }) => {
 
 
         <TouchableOpacity style={styles.goBackBtn} onPress={() => goBack()}>
-        <FontAwesome name="arrow-left" size={25} color="white" />
+        <FontAwesome name="arrow-left" size={20} color="white" />
         </TouchableOpacity>
       </View>
       <View style={styles.detailsCard}>
@@ -173,10 +173,10 @@ const styles = StyleSheet.create({
    top: 20,
    left: '5%',
    marginLeft: -1,
-   backgroundColor: '#ccc',
-   width: 50,
-   height: 50,
-   borderRadius: 25,
+   backgroundColor: '#FFD700',
+   width: 40,
+   height: 40,
+   borderRadius: 20,
    justifyContent: 'center',
   alignItems: 'center',
   },
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 100,
     left: '50%',
-    backgroundColor: '#ccc',
+    backgroundColor: '#FFD700',
     padding: 10,
     borderRadius: 5,
     marginLeft: -50,
