@@ -49,7 +49,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(null);
   const user = auth.currentUser;
   const userId = user ? user.uid : null;
-  const isAdmin = user ? user.email === 'kagiso@admin.co' : false;
+  const isAdmin = user ? user.email === '@admin.co' : false;
 
   useEffect(() => {
     fetchRestaurants();
@@ -254,7 +254,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         data={filteredRestaurants.length > 0 ? filteredRestaurants : restaurants}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={[styles.restaurantItem]}>
+          <View style={styles.restaurantItem}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Restaurant info', { restaurant: item })}
             >
@@ -262,15 +262,69 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
             </TouchableOpacity>
             <View style={styles.restaurantInfo}>
               <Text style={styles.restaurantName}>{item.restName}</Text>
+
+             
               <Text style={styles.restaurantLocation}>{item.restLocation}</Text>
+              
               <View style={styles.ratingsContainer}>
-                <Ionicons name="star" size={12} color="gold" />
-                <Text style={styles.restaurantRatings}>{item.ratings}</Text>
+              <Text style={styles.restaurantRatings}>{item.ratings}</Text>
+
+              {item.ratings < 50  && (
+            <>
+              <Ionicons name="star" size={12} color="gold" />
+              
+            </>
+          )}
+           {item.ratings >= 50 && item.ratings < 75 && (
+            <>
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+            </>
+          )}
+          {item.ratings >= 75 && item.ratings < 100 && (
+            <>
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+            </>
+          )}
+          {item.ratings >= 100 && item.ratings < 150 && (
+            <>
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+            </>
+          )}
+          {item.ratings >= 150 && (
+            <>
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+              <Ionicons name="star" size={12} color="gold" />
+            </>
+          )}
+                
+                
               </View>
             </View>
-            <TouchableOpacity style={styles.heartButton} onPress={() => handleLike(item.id)}>
-              <Ionicons name="heart" size={28} color="#FF6347" />
-            </TouchableOpacity>
+            {!isAdmin && (
+              <TouchableOpacity style={styles.heartButton} onPress={() => handleLike(item.id)}>
+                <Ionicons name="heart" size={28} color="#FF6347" />
+              </TouchableOpacity>
+            )}
+            {/* Buttons for Update and Delete */}
+            {isAdmin && (
+              <View style={styles.actionButtons}>
+                <TouchableOpacity style={styles.updateButton} onPress={() => handleUpdate(item.id)}>
+                  <Ionicons name="create" size={24} color="#6082B6" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id)}>
+                  <Ionicons name="trash" size={24} color="#FF003F" />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         )}
       />
@@ -429,46 +483,48 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   flatListContent: {
-    paddingBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    
   },
   location:{
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   restaurantItem: {
+    width: Dimensions.get('window').width - 50, 
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: 10,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 12,
-    marginVertical: 10,
-    backgroundColor: '#f9f9f9',
+    borderColor: '#ccc',
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginVertical: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 3,
-    width: '90%',
-    alignSelf: 'center',
-    overflow: 'hidden',
+    elevation: 5,
+    alignSelf: 'center', 
+    transition: 'background-color 0.3s ease',
   },
   restaurantImage: {
-    width: 100,
-    height: 80,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    marginRight: 15,
+    width: 100, 
+    height: 80, 
+    borderRadius: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
+  
+  
   restaurantInfo: {
     flex: 1,
-    marginLeft: 10,
-    justifyContent: 'center',
+    marginLeft: 30,
+    
   },
   restaurantName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
   },
   restaurantLocation: {
     fontSize: 16,

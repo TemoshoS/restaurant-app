@@ -32,6 +32,7 @@ import { Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
+  const screenWidth = Dimensions.get('window').width;
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
@@ -86,18 +87,12 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleLike = async (restaurantId) => {
     try {
-
       const restaurantRef = doc(db, 'restaurants', restaurantId);
-
       const restaurantSnapshot = await getDoc(restaurantRef);
       const currentRatings = restaurantSnapshot.data().ratings || 0;
 
-
       const updatedRatings = currentRatings + 0.5;
-
-
       await updateDoc(restaurantRef, { ratings: updatedRatings });
-
 
       const favouriteRestaurantRef = collection(db, 'favouriteRestaurants');
       const querySnapshot = await getDocs(favouriteRestaurantRef);
@@ -106,15 +101,20 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       );
 
       if (likedRestaurant) {
-
-        const likedRestaurantRef = doc(db, 'favouriteRestaurants', likedRestaurant.id);
+        const likedRestaurantRef = doc(
+          db,
+          'favouriteRestaurants',
+          likedRestaurant.id
+        );
         const likedRestaurantSnapshot = await getDoc(likedRestaurantRef);
         const currentRatings = likedRestaurantSnapshot.data().ratings || 0;
         const updatedRatings = currentRatings + 0.5;
 
-        await updateDoc(likedRestaurantRef, { ratings: updatedRatings, userId: userId, });
+        await updateDoc(likedRestaurantRef, {
+          ratings: updatedRatings,
+          userId: userId,
+        });
       } else {
-
         const restaurantSnapshot = await getDoc(restaurantRef);
         const restaurantData = restaurantSnapshot.data();
         const restaurantWithRatings = {
@@ -127,13 +127,11 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         await addDoc(favouriteRestaurantRef, restaurantWithRatings);
       }
 
-
       fetchRestaurants();
     } catch (error) {
       console.error('Error updating ratings:', error);
     }
   };
-
 
   const handleUpdate = (restaurantId) => {
     const selected = restaurants.find((restaurant) => restaurant.id === restaurantId);
@@ -143,11 +141,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleUpdateRestaurant = async () => {
     try {
-
-      // if (!newRestaurantData.restName || !newRestaurantData.restLocation || !newRestaurantData.restInfo || !newRestaurantData.restPhone|| !newRestaurantData.restWebsite) {
-      //   alert('Please fill in all required fields.');
-      //   return;
-      // }
       const { restImage, ...updatedRestaurant } = selectedRestaurant;
       const restaurantRef = doc(db, 'restaurants', selectedRestaurant.id);
 
@@ -159,7 +152,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
     }
   };
 
-
   const handleDelete = async (restaurantId) => {
     try {
       const wantDelete = window.confirm('Are you sure you want to delete this restaurant?');
@@ -169,7 +161,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         await deleteDoc(restaurantRef);
         fetchRestaurants();
       }
-
     } catch (error) {
       console.error('Error deleting restaurant:', error);
     }
@@ -177,7 +168,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
   const handleAdd = async () => {
     try {
-
       if (!image) {
         alert('Please select an image.');
         return;
@@ -187,15 +177,13 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         alert('Please fill in all required fields.');
         return;
       }
+
       const restaurantsCollectionRef = collection(db, 'restaurants');
-
-
 
       const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
       await uploadBytes(imageRef, image);
 
       const imageUrl = await getDownloadURL(imageRef);
-
       const newRestaurantRef = await addDoc(restaurantsCollectionRef, {
         ...newRestaurantData,
         restImage: imageUrl,
@@ -207,7 +195,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       });
 
       fetchRestaurants();
-
       toggleModal();
     } catch (error) {
       console.error('Error adding restaurant:', error);
@@ -225,26 +212,15 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
 
       if (!result.cancelled) {
         setImage(result.uri);
-
-
-        const contentType = "image/jpeg";
-
-        const response = await fetch(result.uri);
-        const blob = await response.blob();
-
-
-        const imageRef = ref(storage, `restaurantImages/${newRestaurantData.restName}`);
-        await uploadBytes(imageRef, blob, { contentType });
       }
     } catch (error) {
       console.error('Error picking image:', error);
     }
   };
 
-
   return (
     <View style={styles.container}>
-      <View >
+      <View>
         <FontAwesome style={styles.circle} name="circle" size={700} color="#FFD700" />
       </View>
       <Navbar />
@@ -274,13 +250,11 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
           </View>
         )}
       />
-      {/* Button to Add New Restaurant */}
       {isAdmin && (
         <TouchableOpacity style={styles.addButton} onPress={toggleModal}>
           <Ionicons name="add" size={30} color="white" />
         </TouchableOpacity>
       )}
-
       {/* Modal for Adding a New Restaurant */}
       <Modal
         isVisible={isModalVisible}
@@ -291,8 +265,6 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Add New Restaurant</Text>
-            {/* Image picker button */}
-
             {image && <Image source={{ uri: image }} style={{ width: 230, height: 200 }} />}
             <TouchableOpacity style={styles.modalButton} onPress={pickImage}>
               <Text style={styles.modalButtonText}>Upload Image</Text>
@@ -315,6 +287,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Phone"
+              keyboardType="phone-pad"
               onChangeText={(text) => handleInputChange('restPhone', text)}
             />
             <TextInput
@@ -322,22 +295,17 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
               placeholder="Website"
               onChangeText={(text) => handleInputChange('restWebsite', text)}
             />
-
-            <TouchableOpacity style={styles.modalButton} onPress={handleAdd}>
-              <Text style={styles.modalButtonText}>Add Restaurant</Text>
+            <TouchableOpacity style={styles.submitButton} onPress={handleAdd}>
+              <Text style={styles.submitButtonText}>Add Restaurant</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleModal}
-            >
-              <Icon name="times" size={30} color="#fff" />
+            <TouchableOpacity onPress={toggleModal}>
+              <Text style={styles.cancelButton}>Cancel</Text>
             </TouchableOpacity>
           </View>
         </View>
       </Modal>
 
-      {/* Modal for Updating a Restaurant */}
+      {/* Modal for Updating Restaurant */}
       <Modal
         isVisible={isUpdateModalVisible}
         onBackdropPress={toggleUpdateModal}
@@ -347,56 +315,42 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Update Restaurant</Text>
-            {selectedRestaurant && selectedRestaurant.restImage && (
-              <Image
-                source={{ uri: selectedRestaurant.restImage }}
-                style={{ width: 225, height: 200, marginBottom: 10 }}
-              />
+            {selectedRestaurant && (
+              <>
+                <TextInput
+                  style={styles.input}
+                  value={selectedRestaurant.restName}
+                  onChangeText={(text) => handleUpdateInputChange('restName', text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={selectedRestaurant.restLocation}
+                  onChangeText={(text) => handleUpdateInputChange('restLocation', text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={selectedRestaurant.restInfo}
+                  onChangeText={(text) => handleUpdateInputChange('restInfo', text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={selectedRestaurant.restPhone}
+                  keyboardType="phone-pad"
+                  onChangeText={(text) => handleUpdateInputChange('restPhone', text)}
+                />
+                <TextInput
+                  style={styles.input}
+                  value={selectedRestaurant.restWebsite}
+                  onChangeText={(text) => handleUpdateInputChange('restWebsite', text)}
+                />
+                <TouchableOpacity style={styles.submitButton} onPress={handleUpdateRestaurant}>
+                  <Text style={styles.submitButtonText}>Update Restaurant</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={toggleUpdateModal}>
+                  <Text style={styles.cancelButton}>Cancel</Text>
+                </TouchableOpacity>
+              </>
             )}
-            <TextInput
-              style={styles.input}
-              placeholder="Updated Restaurant Name"
-              value={selectedRestaurant ? selectedRestaurant.restName : ''}
-              onChangeText={(text) => handleUpdateInputChange('restName', text)}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Updated Restaurant Location"
-              value={selectedRestaurant ? selectedRestaurant.restLocation : ''}
-              onChangeText={(text) => handleUpdateInputChange('restLocation', text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Updated Restaurant informatiom"
-              value={selectedRestaurant ? selectedRestaurant.restInfo : ''}
-              onChangeText={(text) => handleUpdateInputChange('restInfo', text)}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Updated Restaurant Phone Number"
-              value={selectedRestaurant ? selectedRestaurant.restPhone : ''}
-              onChangeText={(text) => handleUpdateInputChange('restPhone', text)}
-            />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Updated Restaurant website"
-              value={selectedRestaurant ? selectedRestaurant.restWebsite : ''}
-              onChangeText={(text) => handleUpdateInputChange('restWebsite', text)}
-            />
-
-
-            <TouchableOpacity style={styles.modalButton} onPress={handleUpdateRestaurant}>
-              <Text style={styles.modalButtonText}>Update Restaurant</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setUpdateModalVisible(false)}
-            >
-              <Icon name="times" size={30} color="#fff" />
-            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -404,36 +358,13 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    restaurants: state.restaurants.restaurants,
-  };
-};
-
-const mapDispatchToProps = {
-  fetchRestaurants,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RestaurantScreen);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-  },
-  circle: {
-    position: 'absolute',
-    top: -300,
-    left: -300,
-    zIndex: -1,
   },
   flatListContent: {
     paddingBottom: 20,
-  },
-  location:{
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   restaurantItem: {
     flexDirection: 'row',
@@ -471,8 +402,9 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   restaurantLocation: {
-    fontSize: 16,
-    color: '#ccc',
+    fontSize: 14,
+    color: '#888',
+    marginTop: 4,
   },
   ratingsContainer: {
     flexDirection: 'row',
@@ -480,80 +412,77 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   restaurantRatings: {
-    fontSize: 16,
+    fontSize: 14,
     marginLeft: 5,
-    color: 'black',
-    fontFamily: 'Rubik Doodle Shadow'
+    color: '#ffcc00',
   },
   heartButton: {
     marginLeft: 'auto',
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    marginLeft: 'auto',
-  },
-  updateButton: {
-    marginRight: 10,
-  },
-  deleteButton: {
-    marginRight: 10,
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 5,
+    elevation: 2,
   },
   addButton: {
     position: 'absolute',
-    bottom: 20,
-    right: 20,
-    backgroundColor: 'green',
+    bottom: 30,
+    right: 30,
+    backgroundColor: '#FF6347',
+    borderRadius: 30,
     padding: 15,
-    borderRadius: 50,
     elevation: 5,
   },
-
-  modalContainer: {
-    flex: 1,
+  modal: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#FFD700',
-    padding: 20,
+  modalContainer: {
+    backgroundColor: 'white',
     borderRadius: 10,
+    padding: 20,
+    width: '90%',
     elevation: 5,
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 4,
-
+  },
+  modalContent: {
+    alignItems: 'center',
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#fff',
+    marginBottom: 20,
   },
   input: {
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-    color: '#fff',
-  },
-  modalButton: {
-    backgroundColor: '#F3EEEA',
-    padding: 10,
     borderRadius: 5,
-    marginTop: 10,
-    color: '',
+    paddingHorizontal: 10,
+    width: '100%',
+    marginBottom: 10,
   },
-  modalButtonText: {
-    color: '#83764F',
-    textAlign: 'center',
-  },
-  closeButton: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
+  submitButton: {
+    backgroundColor: '#FF6347',
+    borderRadius: 5,
     padding: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+  submitButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  cancelButton: {
+    color: '#FF6347',
+    marginTop: 10,
   },
 });
+
+const mapStateToProps = (state) => ({
+  restaurants: state.restaurants.restaurants,
+});
+
+const mapDispatchToProps = {
+  fetchRestaurants,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RestaurantScreen);

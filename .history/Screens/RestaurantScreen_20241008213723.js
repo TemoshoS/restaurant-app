@@ -32,6 +32,7 @@ import { Dimensions } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
 const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
+  const screenWidth = Dimensions.get('window').width;
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isUpdateModalVisible, setUpdateModalVisible] = useState(false);
@@ -251,10 +252,10 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
       <Search onSearch={handleSearch} />
       <FlatList
         contentContainerStyle={styles.flatListContent}
-        data={filteredRestaurants.length > 0 ? filteredRestaurants : restaurants}
+        data={restaurants}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View style={[styles.restaurantItem]}>
+          <View style={styles.restaurantItem}>
             <TouchableOpacity
               onPress={() => navigation.navigate('Restaurant info', { restaurant: item })}
             >
@@ -268,7 +269,7 @@ const RestaurantScreen = ({ restaurants, fetchRestaurants, navigation }) => {
                 <Text style={styles.restaurantRatings}>{item.ratings}</Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.heartButton} onPress={() => handleLike(item.id)}>
+            <TouchableOpacity style={styles.heartButton}>
               <Ionicons name="heart" size={28} color="#FF6347" />
             </TouchableOpacity>
           </View>
@@ -428,9 +429,12 @@ const styles = StyleSheet.create({
     left: -300,
     zIndex: -1,
   },
+  
   flatListContent: {
-    paddingBottom: 20,
+    paddingVertical: 20,
+    alignItems: 'center',  // Align items in the center
   },
+  
   location:{
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -438,37 +442,36 @@ const styles = StyleSheet.create({
   restaurantItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: 10,
     borderBottomWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 12,
-    marginVertical: 10,
-    backgroundColor: '#f9f9f9',
+    borderColor: '#ccc',
+    borderRadius: 10,
+    marginVertical: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 3,
-    width: '90%',
+    elevation: 5,
+    width: '90%',  // Change this to a percentage
     alignSelf: 'center',
-    overflow: 'hidden',
   },
+  
   restaurantImage: {
-    width: 100,
-    height: 80,
-    borderRadius: 12,
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    marginRight: 15,
+    width: 100, 
+    height: 80, 
+    borderRadius: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
+  
+  
   restaurantInfo: {
     flex: 1,
-    marginLeft: 10,
-    justifyContent: 'center',
+    marginLeft: 30,
+    
   },
   restaurantName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
   },
   restaurantLocation: {
     fontSize: 16,

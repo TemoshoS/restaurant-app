@@ -460,15 +460,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.1)',
     marginRight: 15,
   },
+  
   restaurantInfo: {
     flex: 1,
-    marginLeft: 10,
-    justifyContent: 'center',
+    marginLeft: 30,
+    
   },
   restaurantName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
   },
   restaurantLocation: {
     fontSize: 16,

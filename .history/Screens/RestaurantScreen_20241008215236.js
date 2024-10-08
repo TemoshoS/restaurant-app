@@ -466,9 +466,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   restaurantName: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
   },
   restaurantLocation: {
     fontSize: 16,
